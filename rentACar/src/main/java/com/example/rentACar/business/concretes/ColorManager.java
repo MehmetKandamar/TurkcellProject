@@ -1,6 +1,7 @@
 package com.example.rentACar.business.concretes;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,10 +28,10 @@ public class ColorManager implements ColorService{
 
 	@Override
 	public List<ListColorDto> getAll() {
-        var result = this.productDao.findAll();
-        List<ListProductDto> response = result.stream()
+        var result = this.colorDao.findAll();
+        List<ListColorDto> response = result.stream()
                 .map(product->this.modelMapperService.forDto()
-                        .map(product, ListProductDto.class)).collect(Collectors.toList());
+                        .map(product, ListColorDto.class)).collect(Collectors.toList());
         return response;
 
 	}

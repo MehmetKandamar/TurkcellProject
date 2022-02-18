@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.rentACar.business.abstracts.ColorService;
 import com.example.rentACar.business.dtos.ListColorDto;
 import com.example.rentACar.business.requests.CreateColorRequest;
+import com.example.rentACar.core.exceptions.BusinessException;
 import com.example.rentACar.core.utilities.mapping.ModelMapperService;
 import com.example.rentACar.dataAccess.abstracts.ColorDao;
 import com.example.rentACar.entities.concretes.Color;
@@ -21,7 +22,6 @@ public class ColorManager implements ColorService{
 	
 	@Autowired
 	public ColorManager(ColorDao colorDao, ModelMapperService modelMapperService) {
-		super();
 		this.colorDao = colorDao;
 		this.modelMapperService = modelMapperService;
 	}
@@ -41,6 +41,12 @@ public class ColorManager implements ColorService{
 		   Color color = this.modelMapperService.forRequest().map(createColorRequest, Color.class);
 	        this.colorDao.save(color);
 
+	}
+
+	@Override
+	public ListColorDto getById(int colorId) throws BusinessException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

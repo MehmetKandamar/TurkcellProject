@@ -7,5 +7,6 @@ import com.example.rentACar.entities.concretes.Brand;
 
 @Repository
 public interface BrandDao extends JpaRepository<Brand, Integer>{
+	//JpaRepository<Brand, Integer> burada diyoruz ki sen Brand tablosu için çalışacaksın ve primary key'in türü nedir bunları bildiriyoruz.
 
 }

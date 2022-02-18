@@ -3,11 +3,13 @@ package com.example.rentACar.business.concretes;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.rentACar.business.abstracts.BrandService;
 import com.example.rentACar.business.dtos.ListBrandDto;
 import com.example.rentACar.business.requests.CreateBrandRequest;
+import com.example.rentACar.core.exceptions.BusinessException;
 import com.example.rentACar.core.utilities.mapping.ModelMapperService;
 import com.example.rentACar.dataAccess.abstracts.BrandDao;
 import com.example.rentACar.entities.concretes.Brand;
@@ -18,9 +20,10 @@ public class BrandManager implements BrandService{
 	private BrandDao brandDao;
 	private ModelMapperService modelMapperService;
 
-	public BrandManager(BrandDao brandDao) {
-		super();
+	@Autowired
+	public BrandManager(BrandDao brandDao, ModelMapperService modelMapperService) {
 		this.brandDao = brandDao;
+		this.modelMapperService = modelMapperService;
 	}
 
 	@Override
@@ -36,6 +39,12 @@ public class BrandManager implements BrandService{
 	public void add(CreateBrandRequest createBrandRequest) {
 		  Brand brand = this.modelMapperService.forRequest().map(createBrandRequest, Brand.class);
 	        this.brandDao.save(brand);
+	}
+
+	@Override
+	public ListBrandDto getById(int brandId) throws BusinessException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

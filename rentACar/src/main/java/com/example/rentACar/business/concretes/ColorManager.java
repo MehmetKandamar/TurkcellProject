@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.rentACar.business.abstracts.ColorService;
-import com.example.rentACar.business.dtos.ListColorDto;
-import com.example.rentACar.business.requests.CreateColorRequest;
+import com.example.rentACar.business.dtos.listDtos.ListColorDto;
+import com.example.rentACar.business.requests.createRequests.CreateColorRequest;
+import com.example.rentACar.business.requests.deleteRequests.DeleteColorRequest;
+import com.example.rentACar.business.requests.updateRequests.UpdateColorRequest;
 import com.example.rentACar.core.exceptions.BusinessException;
 import com.example.rentACar.core.utilities.mapping.ModelMapperService;
 import com.example.rentACar.dataAccess.abstracts.ColorDao;
@@ -47,6 +49,18 @@ public class ColorManager implements ColorService{
 	public ListColorDto getById(int colorId) throws BusinessException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void delete(DeleteColorRequest deleteColorRequest) throws BusinessException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(UpdateColorRequest updateColorRequest) throws BusinessException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -3,17 +3,19 @@ package com.example.rentACar.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.rentACar.business.abstracts.ColorService;
-import com.example.rentACar.business.dtos.ListBrandDto;
-import com.example.rentACar.business.dtos.ListColorDto;
-import com.example.rentACar.business.requests.CreateBrandRequest;
-import com.example.rentACar.business.requests.CreateColorRequest;
+import com.example.rentACar.business.dtos.listDtos.ListColorDto;
+import com.example.rentACar.business.requests.createRequests.CreateColorRequest;
+import com.example.rentACar.business.requests.deleteRequests.DeleteColorRequest;
+import com.example.rentACar.business.requests.updateRequests.UpdateColorRequest;
 import com.example.rentACar.core.exceptions.BusinessException;
 
 @RestController
@@ -42,6 +44,14 @@ public class ColorsController {
 		return this.colorService.getById(colorId);
 	}
 	
-	
+	  @DeleteMapping("/delete")
+	    public void delete(@RequestBody DeleteColorRequest deleteColorRequest) throws BusinessException{
+	    this.colorService.delete(deleteColorRequest);
+	    }
+	    
+	    @PutMapping("/update")
+	    public void update(@RequestBody UpdateColorRequest updateColorRequest) throws BusinessException{
+	    this.colorService.update(updateColorRequest);
+	    }
 
 }

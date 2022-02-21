@@ -1,4 +1,4 @@
-package com.example.rentACar.business.dtos;
+package com.example.rentACar.business.requests.createRequests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ListBrandDto {
-	private int brandId;
+public class CreateBrandRequest {
+	
 	private String brandName;
 }

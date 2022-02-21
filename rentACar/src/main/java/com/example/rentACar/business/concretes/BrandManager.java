@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.rentACar.business.abstracts.BrandService;
-import com.example.rentACar.business.dtos.ListBrandDto;
-import com.example.rentACar.business.requests.CreateBrandRequest;
+import com.example.rentACar.business.dtos.listDtos.ListBrandDto;
+import com.example.rentACar.business.requests.createRequests.CreateBrandRequest;
+import com.example.rentACar.business.requests.deleteRequests.DeleteBrandRequest;
+import com.example.rentACar.business.requests.updateRequests.UpdateBrandRequest;
 import com.example.rentACar.core.exceptions.BusinessException;
 import com.example.rentACar.core.utilities.mapping.ModelMapperService;
 import com.example.rentACar.dataAccess.abstracts.BrandDao;
@@ -45,6 +47,18 @@ public class BrandManager implements BrandService{
 	public ListBrandDto getById(int brandId) throws BusinessException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void delete(DeleteBrandRequest deleteBrandRequest) throws BusinessException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(UpdateBrandRequest updateBrandRequest) throws BusinessException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -12,6 +12,11 @@ import com.example.rentACar.business.requests.createRequests.CreateBrandRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeleteBrandRequest;
 import com.example.rentACar.business.requests.updateRequests.UpdateBrandRequest;
 import com.example.rentACar.core.exceptions.BusinessException;
+import com.example.rentACar.core.results.DataResult;
+import com.example.rentACar.core.results.ErrorResult;
+import com.example.rentACar.core.results.Result;
+import com.example.rentACar.core.results.SuccessDataResult;
+import com.example.rentACar.core.results.SuccessResult;
 import com.example.rentACar.core.utilities.mapping.ModelMapperService;
 import com.example.rentACar.dataAccess.abstracts.BrandDao;
 import com.example.rentACar.entities.concretes.Brand;
@@ -29,36 +34,71 @@ public class BrandManager implements BrandService{
 	}
 
 	@Override
-	public List<ListBrandDto> getAll() {
+	public DataResult<List<ListBrandDto>> getAll() {
 		  var result = this.brandDao.findAll();
 	        List<ListBrandDto> response = result.stream()
 	                .map(product->this.modelMapperService.forDto()
 	                        .map(product, ListBrandDto.class)).collect(Collectors.toList());
-	        return response;
+	        return new SuccessDataResult<List<ListBrandDto>>(response);
 	}
 
 	@Override
-	public void add(CreateBrandRequest createBrandRequest) {
+	public Result add(CreateBrandRequest createBrandRequest) throws BusinessException{
 		  Brand brand = this.modelMapperService.forRequest().map(createBrandRequest, Brand.class);
-	        this.brandDao.save(brand);
+	       if (checkIfBrandName(createBrandRequest)) {
+			 this.brandDao.save(brand);
+			 return new SuccessResult("Brand.added");
+		}
+		 return new ErrorResult("Brand.NotFound");
+	        
 	}
 
 	@Override
-	public ListBrandDto getById(int brandId) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
+	public DataResult<ListBrandDto> getById(int brandId) throws BusinessException {
+		var result = this.brandDao.getByBrandId(brandId);
+		if (result != null) {
+			ListBrandDto response = this.modelMapperService.forDto().map(result, ListBrandDto.class);
+			return new SuccessDataResult<ListBrandDto>(response);
+		}
+		throw new BusinessException("Markaların içerisinde böyle bir id bulunmamaktadır.");
+	}
+
+	private boolean checkIfBrandName(CreateBrandRequest createBrandRequest) throws BusinessException {
+		Brand brand = this.brandDao.getByBrandName(createBrandRequest.getBrandName());
+		if (brand == null) {
+			return true;
+		}
+		throw new BusinessException("Aynı isimde bir marka bulunmaktadır.");
 	}
 
 	@Override
-	public void delete(DeleteBrandRequest deleteBrandRequest) throws BusinessException {
-		// TODO Auto-generated method stub
+	public Result delete(DeleteBrandRequest deleteBrandRequest) throws BusinessException {
+
+		Brand brand = this.modelMapperService.forRequest().map(deleteBrandRequest, Brand.class);
+		if (checkBrandIdExist(brand)) {
+			this.brandDao.deleteById(brand.getBrandId());
+			return new SuccessResult("Brand.Deleted");
+		}
+		return new ErrorResult("Brand.NotFound");
+	}
+
+	@Override
+	public Result update(UpdateBrandRequest updateBrandRequest) throws BusinessException {
+		Brand brand = this.modelMapperService.forRequest().map(updateBrandRequest, Brand.class);
+		
+		if (checkBrandIdExist(brand)) {
+			this.brandDao.save(brand);
+			return new SuccessResult("Brand.Updated");
+		}
+		
+		return new ErrorResult("Brand.NotFound");
 		
 	}
+	
+	private boolean checkBrandIdExist(Brand brand) {
 
-	@Override
-	public void update(UpdateBrandRequest updateBrandRequest) throws BusinessException {
-		// TODO Auto-generated method stub
-		
+		return this.brandDao.getByBrandId(brand.getBrandId()) != null;
+
 	}
 
 }

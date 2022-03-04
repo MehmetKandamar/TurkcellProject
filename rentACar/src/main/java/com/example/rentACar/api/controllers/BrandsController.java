@@ -2,6 +2,7 @@ package com.example.rentACar.api.controllers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,12 +17,15 @@ import com.example.rentACar.business.requests.createRequests.CreateBrandRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeleteBrandRequest;
 import com.example.rentACar.business.requests.updateRequests.UpdateBrandRequest;
 import com.example.rentACar.core.exceptions.BusinessException;
+import com.example.rentACar.core.results.DataResult;
+import com.example.rentACar.core.results.Result;
 
 @RestController
 @RequestMapping("/api/brands")
 public class BrandsController {
 	private BrandService brandService;
-
+	
+	@Autowired
 	public BrandsController(BrandService brandService) {
 
 		this.brandService = brandService;
@@ -29,28 +33,28 @@ public class BrandsController {
 	
 
 	@GetMapping("/getall")
-	public List<ListBrandDto> getAll() {
+	public DataResult<List<ListBrandDto>>  getAll() {
 		return this.brandService.getAll();
 	}
 
 	@PostMapping("/add")
-	public void add(@RequestBody CreateBrandRequest createBrandRequest) throws BusinessException {
-		this.brandService.add(createBrandRequest);
+	public Result add(@RequestBody CreateBrandRequest createBrandRequest) throws BusinessException {
+		return this.brandService.add(createBrandRequest);
 	}
 	
 	@GetMapping("/getbyid")
-	public ListBrandDto getById(int brandId) throws BusinessException {
+	public DataResult<ListBrandDto> getById(int brandId) throws BusinessException {
 		return this.brandService.getById(brandId);
 	}
 	
 	@DeleteMapping("/delete")
-    public void delete(@RequestBody DeleteBrandRequest deleteBrandRequest) throws BusinessException{
-    this.brandService.delete(deleteBrandRequest);
+    public Result delete(@RequestBody DeleteBrandRequest deleteBrandRequest) throws BusinessException{
+    return this.brandService.delete(deleteBrandRequest);
     }
     
     @PutMapping("/update")
-    public void update(@RequestBody UpdateBrandRequest updateBrandRequest) throws BusinessException{
-    this.brandService.update(updateBrandRequest);
+    public Result update(@RequestBody UpdateBrandRequest updateBrandRequest) throws BusinessException{
+    return this.brandService.update(updateBrandRequest);
     }
 
 }

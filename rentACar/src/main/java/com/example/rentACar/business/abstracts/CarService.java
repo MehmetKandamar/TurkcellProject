@@ -10,12 +10,24 @@ import com.example.rentACar.business.requests.createRequests.CreateCarRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeleteCarRequest;
 import com.example.rentACar.business.requests.updateRequests.UpdateCarRequest;
 import com.example.rentACar.core.exceptions.BusinessException;
+import com.example.rentACar.core.results.DataResult;
+import com.example.rentACar.core.results.Result;
 
 @Service
 public interface CarService {
-	List<ListCarDto> getAll();
-	void add(CreateCarRequest createCarRequest);
-	GetByIdCarDto getById(int id);
-	void delete (DeleteCarRequest deleteCarRequest) throws BusinessException;
-	void update(UpdateCarRequest updateCarRequest) throws BusinessException;
+	DataResult<List<ListCarDto>> getAll();
+	
+	Result add(CreateCarRequest createCarRequest) throws BusinessException;
+	
+	DataResult<GetByIdCarDto>  getById(int id) throws BusinessException;
+	
+	Result delete (DeleteCarRequest deleteCarRequest) throws BusinessException;
+	
+	Result update(UpdateCarRequest updateCarRequest) throws BusinessException;
+	
+	DataResult<List<ListCarDto>> getAllPaged(int pageNo, int pageSize);
+
+	DataResult<List<ListCarDto>> getAllSorted();
+
+	DataResult<List<ListCarDto>> listByPriceLessThanEqual(int maxPrice);
 }

@@ -46,10 +46,11 @@ public class ColorManager implements ColorService{
 	@Override
 	public Result add(CreateColorRequest createColorRequest) throws BusinessException{
 		   Color color = this.modelMapperService.forRequest().map(createColorRequest, Color.class);
-		   if(checkIfColorName(createColorRequest)) {
-			   this.colorDao.save("	Color.added");
+		   if(colorDao.existsByColorName(createColorRequest.getColorName())) {
+			   return new ErrorResult("Color.NotFound");
 		   }
-		   return new ErrorResult("Color.NotFound");
+		  colorDao.save(color);
+		  return new SuccessResult();
 	}
 
 	@Override
@@ -82,13 +83,9 @@ public class ColorManager implements ColorService{
 		return new ErrorResult("Color.NotFound");
 	}
 	
-	private boolean checkIfColorName(Color color) {
-		return this.colorDao.getByColorId(color.getColorId()) != null;
-	}
-	
 	private boolean checkColorIdExist(Color color) {
 
-		return this.colorDao.getColorById(color.getId()) != null;
+		return this.colorDao.getByColorId(color.getColorId()) != null;
 
 	}
 

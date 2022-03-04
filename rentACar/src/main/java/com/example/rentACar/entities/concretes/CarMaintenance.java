@@ -1,6 +1,6 @@
 package com.example.rentACar.entities.concretes;
 
-import java.util.List;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -17,33 +16,25 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="cars")
-public class Car {
+@Entity
+@Table(name="car_maintenances")
+public class CarMaintenance {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "car_id")
-	private int carId;
-	
-	@Column(name="daily_price")
-	private double dailyPrice;
-	
-	@Column(name="model_year")
-	private String modelYear;
+	@Column(name = "id")
+	private int id;
 	
 	@Column(name="description")
 	private String description;
 	
-	@ManyToOne
-	@JoinColumn(name="brand_id")
-	private Brand brand;
+	@Column(name="return_date")
+	private Date returnDate;
 	
 	@ManyToOne
-	@JoinColumn(name="color_id")
-	private Color color;
-	
-	@OneToMany(mappedBy = "car")
-	private List<CarMaintenance>  carMaintenance;
+	@JoinColumn(name="car_id")
+	private Car car;
+
 }

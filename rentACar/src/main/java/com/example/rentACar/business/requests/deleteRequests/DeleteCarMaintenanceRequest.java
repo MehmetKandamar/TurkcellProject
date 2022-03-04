@@ -1,6 +1,5 @@
 package com.example.rentACar.business.requests.deleteRequests;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -10,8 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeleteCarRequest {
+public class DeleteCarMaintenanceRequest {
+
 	@NotNull
-	@Min(1)
-	private int carId;
+	private int id;
+
 }

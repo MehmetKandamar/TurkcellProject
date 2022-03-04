@@ -1,11 +1,12 @@
 package com.example.rentACar.business.concretes;
 
-import java.awt.print.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.example.rentACar.business.abstracts.CarService;
@@ -23,8 +24,6 @@ import com.example.rentACar.core.results.SuccessResult;
 import com.example.rentACar.core.utilities.mapping.ModelMapperService;
 import com.example.rentACar.dataAccess.abstracts.CarDao;
 import com.example.rentACar.entities.concretes.Car;
-
-import net.bytebuddy.asm.Advice.OffsetMapping.Sort;
 
 @Service
 public class CarManager implements CarService{

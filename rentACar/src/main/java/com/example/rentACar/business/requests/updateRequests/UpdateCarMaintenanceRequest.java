@@ -1,6 +1,8 @@
 package com.example.rentACar.business.requests.updateRequests;
 
-import javax.validation.constraints.Min;
+import java.time.LocalDate;
+
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -11,28 +13,19 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateCarRequest {
+public class UpdateCarMaintenanceRequest {
 	
 	@NotNull
-	@Min(1)
-	private int carId;
+	private int id;
 	
 	@NotNull
-	@Min(0)
-	private int dailyPrice;
-	
-	@NotNull
-	private String modelYear;
-	
-	@NotNull
-	@Size(min=2, max=150)
+	@NotBlank
+	@Size(min = 3, max = 150)
 	private String description;
 	
 	@NotNull
-	@Min(1)
-	private int brandId;
+	private int carId;
 	
 	@NotNull
-	@Min(1)
-	private int colorId;
+	private LocalDate returnDate;
 }

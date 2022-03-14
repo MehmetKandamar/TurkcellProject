@@ -43,7 +43,7 @@ public class BrandManager implements BrandService{
 	}
 
 	@Override
-	public Result add(CreateBrandRequest createBrandRequest) throws BusinessException{
+	public Result create(CreateBrandRequest createBrandRequest) throws BusinessException{
 		  Brand brand = this.modelMapperService.forRequest().map(createBrandRequest, Brand.class);
 	       if (checkIfBrandName(createBrandRequest)) {
 			 this.brandDao.save(brand);

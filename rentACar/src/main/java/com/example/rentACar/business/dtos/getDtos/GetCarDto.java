@@ -1,4 +1,4 @@
-package com.example.rentACar.business.dtos.getByIdDtos;
+package com.example.rentACar.business.dtos.getDtos;
 
 import com.example.rentACar.entities.concretes.Brand;
 import com.example.rentACar.entities.concretes.Color;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetByIdCarDto {
+public class GetCarDto {
 	private int carId;
 	private String carName;
 	private double dailyPrice;

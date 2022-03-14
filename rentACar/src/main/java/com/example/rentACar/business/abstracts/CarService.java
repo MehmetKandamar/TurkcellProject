@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.rentACar.business.dtos.getByIdDtos.GetByIdCarDto;
+import com.example.rentACar.business.dtos.getDtos.GetCarDto;
 import com.example.rentACar.business.dtos.listDtos.ListCarDto;
 import com.example.rentACar.business.requests.createRequests.CreateCarRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeleteCarRequest;
@@ -17,9 +17,9 @@ import com.example.rentACar.core.results.Result;
 public interface CarService {
 	DataResult<List<ListCarDto>> getAll();
 	
-	Result add(CreateCarRequest createCarRequest) throws BusinessException;
+	Result create(CreateCarRequest createCarRequest) throws BusinessException;
 	
-	DataResult<GetByIdCarDto>  getById(int id) throws BusinessException;
+	DataResult<GetCarDto>  getById(int id) throws BusinessException;
 	
 	Result delete (DeleteCarRequest deleteCarRequest) throws BusinessException;
 	

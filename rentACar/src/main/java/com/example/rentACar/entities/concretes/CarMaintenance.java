@@ -24,17 +24,17 @@ public class CarMaintenance {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private int id;
+	@Column(name = "car_maintenance_id")
+	private int carMaintenanceId;
 	
-	@Column(name="description")
-	private String description;
+	@Column(name="maintenance_description")
+	private String maintenanceDescription;
 	
 	@Column(name="return_date")
 	private Date returnDate;
 	
 	@ManyToOne
 	@JoinColumn(name="car_id")
-	private Car carId;
+	private Car car;
 
 }

@@ -29,6 +29,6 @@ public class Brand {
 	@Column(name="brand_name")
 	private String brandName;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "brand")
 	private List<Car> cars;
 }

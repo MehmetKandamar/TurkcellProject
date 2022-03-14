@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.rentACar.business.abstracts.CarService;
-import com.example.rentACar.business.dtos.getByIdDtos.GetByIdCarDto;
+import com.example.rentACar.business.dtos.getDtos.GetCarDto;
 import com.example.rentACar.business.dtos.listDtos.ListCarDto;
 import com.example.rentACar.business.requests.createRequests.CreateCarRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeleteCarRequest;
@@ -47,7 +47,7 @@ public class CarManager implements CarService{
 	}
 
 	@Override
-	public Result add(CreateCarRequest createCarRequest) throws BusinessException{
+	public Result create(CreateCarRequest createCarRequest) throws BusinessException{
 		Car car = this.modelMapperService.forRequest().map(createCarRequest, Car.class);
 		this.carDao.save(car);
 		return new SuccessResult("Car.Added");
@@ -55,12 +55,12 @@ public class CarManager implements CarService{
 	}
 
 	@Override
-	public DataResult<GetByIdCarDto> getById(int carId) throws BusinessException{
+	public DataResult<GetCarDto> getById(int carId) throws BusinessException{
 		var result = this.carDao.getByCarId(carId);
 		if(result != null) {
 			
-		GetByIdCarDto response = this.modelMapperService.forDto().map(result, GetByIdCarDto.class);
-		return new SuccessDataResult<GetByIdCarDto>(response);
+		GetCarDto response = this.modelMapperService.forDto().map(result, GetCarDto.class);
+		return new SuccessDataResult<GetCarDto>(response);
 		
 		}
 		throw new BusinessException("Arabaların içerisinde böyle bir id bulunmamaktadır.");

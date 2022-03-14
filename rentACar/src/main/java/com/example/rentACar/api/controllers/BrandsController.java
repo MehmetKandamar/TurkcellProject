@@ -37,9 +37,9 @@ public class BrandsController {
 		return this.brandService.getAll();
 	}
 
-	@PostMapping("/add")
+	@PostMapping("/create")
 	public Result add(@RequestBody CreateBrandRequest createBrandRequest) throws BusinessException {
-		return this.brandService.add(createBrandRequest);
+		return this.brandService.create(createBrandRequest);
 	}
 	
 	@GetMapping("/getbyid")

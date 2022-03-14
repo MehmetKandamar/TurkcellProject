@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.rentACar.business.abstracts.CarService;
-import com.example.rentACar.business.dtos.getByIdDtos.GetByIdCarDto;
+import com.example.rentACar.business.dtos.getDtos.GetCarDto;
 import com.example.rentACar.business.dtos.listDtos.ListCarDto;
 import com.example.rentACar.business.requests.createRequests.CreateCarRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeleteCarRequest;
@@ -39,13 +38,13 @@ public class CarsController {
 		return this.carService.getAll();
 	}
 	
-	@PostMapping("/add")
+	@PostMapping("/create")
 	public Result add(@RequestBody CreateCarRequest createCarRequest) throws BusinessException{
-		return this.carService.add(createCarRequest);
+		return this.carService.create(createCarRequest);
 	}
 	
 	@GetMapping(path = {"/getById", "/getById/{id}"})
-	public DataResult<GetByIdCarDto> getById(@RequestParam("carId") int carId) throws BusinessException{
+	public DataResult<GetCarDto> getById(@RequestParam("carId") int carId) throws BusinessException{
 		return this.carService.getById(carId);
 	}
 	

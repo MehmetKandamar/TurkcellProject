@@ -1,4 +1,4 @@
-package com.example.rentACar.business.dtos.getByIdDtos;
+package com.example.rentACar.business.dtos.getDtos;
 
 import java.time.LocalDate;
 
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetByIdRentalDto {
+public class GetRentalDto {
 	private int id;
 	private int carId;
 	private int customerId;

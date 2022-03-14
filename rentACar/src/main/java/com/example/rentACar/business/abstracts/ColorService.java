@@ -12,7 +12,7 @@ import com.example.rentACar.core.results.Result;
 
 public interface ColorService {
 	DataResult<List<ListColorDto>>  getAll();
-	Result add(CreateColorRequest createColorRequest) throws BusinessException;
+	Result create(CreateColorRequest createColorRequest) throws BusinessException;
 	DataResult<ListColorDto> getById(int colorId) throws BusinessException;
 	Result delete (DeleteColorRequest deleteColorRequest) throws BusinessException;
 	Result update(UpdateColorRequest updateColorRequest) throws BusinessException;

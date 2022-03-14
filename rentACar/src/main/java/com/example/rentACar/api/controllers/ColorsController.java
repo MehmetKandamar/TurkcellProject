@@ -36,9 +36,9 @@ public class ColorsController {
 		return this.colorService.getAll();
 	}
 	
-	@PostMapping("/add")
+	@PostMapping("/create")
 	public Result add(@RequestBody CreateColorRequest createColorRequest) throws BusinessException {
-		return this.colorService.add(createColorRequest);
+		return this.colorService.create(createColorRequest);
 	}
 	
 	@GetMapping("/getbyid")

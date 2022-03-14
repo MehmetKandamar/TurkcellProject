@@ -2,12 +2,11 @@ package com.example.rentACar.business.abstracts;
 
 import java.util.List;
 
-import com.example.rentACar.business.dtos.getByIdDtos.GetByIdCarMaintenanceDto;
+import com.example.rentACar.business.dtos.getDtos.GetCarMaintenanceDto;
 import com.example.rentACar.business.dtos.listDtos.ListCarMaintenanceDto;
 import com.example.rentACar.business.requests.createRequests.CreateCarMaintenanceRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeleteCarMaintenanceRequest;
 import com.example.rentACar.business.requests.updateRequests.UpdateCarMaintenanceRequest;
-import com.example.rentACar.core.exceptions.BusinessException;
 import com.example.rentACar.core.results.DataResult;
 import com.example.rentACar.core.results.Result;
 import com.example.rentACar.entities.concretes.CarMaintenance;
@@ -15,17 +14,17 @@ import com.example.rentACar.entities.concretes.CarMaintenance;
 public interface CarMaintenanceService {
 	DataResult<List<ListCarMaintenanceDto>> getAll();
 	
-	Result add(CreateCarMaintenanceRequest createCarMaintenanceRequest) throws BusinessException;
+	Result create(CreateCarMaintenanceRequest createCarMaintenanceRequest);
 	
-	DataResult<GetByIdCarMaintenanceDto>  getById(int id) throws BusinessException;
+	DataResult<GetCarMaintenanceDto>  getByCarId(int carId);
 	
-	Result delete (DeleteCarMaintenanceRequest deleteCarMaintenanceRequest) throws BusinessException;
+	Result delete (DeleteCarMaintenanceRequest deleteCarMaintenanceRequest);
 	
-	Result update(UpdateCarMaintenanceRequest updateCarMaintenanceRequest) throws BusinessException;
+	Result update(UpdateCarMaintenanceRequest updateCarMaintenanceRequest);
 	
 	DataResult<List<ListCarMaintenanceDto>> getAllPaged(int pageNo, int pageSize);
 
 	DataResult<List<ListCarMaintenanceDto>> getAllSorted();
 
-	DataResult<List<CarMaintenance>> findCarByCarId(int carId);
+	DataResult<List<CarMaintenance>> getCarByCarId(int carId);
 }

@@ -44,7 +44,7 @@ public class ColorManager implements ColorService{
 	}
 
 	@Override
-	public Result add(CreateColorRequest createColorRequest) throws BusinessException{
+	public Result create(CreateColorRequest createColorRequest) throws BusinessException{
 		   Color color = this.modelMapperService.forRequest().map(createColorRequest, Color.class);
 		   if(colorDao.existsByColorName(createColorRequest.getColorName())) {
 			   return new ErrorResult("Color.NotFound");

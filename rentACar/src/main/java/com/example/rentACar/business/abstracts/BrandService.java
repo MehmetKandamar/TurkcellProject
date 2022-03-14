@@ -12,8 +12,8 @@ import com.example.rentACar.core.results.Result;
 
 public interface BrandService {
 	DataResult<List<ListBrandDto>> getAll();
-	Result add(CreateBrandRequest createBrandRequest) throws BusinessException;
 	DataResult<ListBrandDto> getById(int brandId) throws BusinessException;
+	Result create(CreateBrandRequest createBrandRequest) throws BusinessException;
 	Result delete (DeleteBrandRequest deleteBrandRequest) throws BusinessException;
 	Result update(UpdateBrandRequest updateBrandRequest) throws BusinessException;
 	

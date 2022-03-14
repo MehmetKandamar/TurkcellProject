@@ -10,5 +10,5 @@ import com.example.rentACar.entities.concretes.Car;
 @Repository
 public interface CarDao extends JpaRepository<Car, Integer>{
 	Car getByCarId(int carId);
-	List<Car> findByDailyPriceLessThanEqual(double price);
+	List<Car> findByDailyPriceLessThanEqual(double dailyPrice);
 }

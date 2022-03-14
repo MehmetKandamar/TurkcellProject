@@ -1,4 +1,4 @@
-package com.example.rentACar.business.dtos.getByIdDtos;
+package com.example.rentACar.business.dtos.getDtos;
 
 import java.util.Date;
 
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetByIdCarMaintenanceDto {
+public class GetCarMaintenanceDto {
 
 	private String description;
 	private Date returnDate;

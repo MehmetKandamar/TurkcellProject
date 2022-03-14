@@ -45,5 +45,8 @@ public class Car {
 	private Color color;
 	
 	@OneToMany(mappedBy = "car")
-	private List<CarMaintenance>  carMaintenance;
+	private List<CarMaintenance>  carMaintenances;
+	
+	@OneToMany(mappedBy = "car")
+	private List<Rental> rentals;
 }

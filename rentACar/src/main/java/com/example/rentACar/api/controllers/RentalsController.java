@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.rentACar.business.abstracts.RentalService;
+import com.example.rentACar.business.dtos.getDtos.GetRentalDto;
 import com.example.rentACar.business.dtos.listDtos.ListRentalDto;
 import com.example.rentACar.business.requests.createRequests.CreateRentalRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeleteRentalRequest;
@@ -38,13 +39,13 @@ public class RentalsController {
 	}
 
 	@GetMapping("/get/{id}")
-	public DataResult<RentalDto> get(@RequestParam int id) {
+	public DataResult<GetRentalDto> get(@RequestParam int id) {
 		return rentalService.getById(id);
 	}
 
-	@PostMapping("/save")
+	@PostMapping("/create")
 	public Result add(@RequestBody @Valid CreateRentalRequest createRentalRequest) {
-		return rentalService.add(createRentalRequest);
+		return rentalService.create(createRentalRequest);
 	}
 
 	@DeleteMapping("/delete")

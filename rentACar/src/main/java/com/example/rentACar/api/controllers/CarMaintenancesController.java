@@ -1,5 +1,7 @@
 package com.example.rentACar.api.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.rentACar.business.abstracts.CarMaintenanceService;
+import com.example.rentACar.business.dtos.getDtos.GetCarMaintenanceDto;
+import com.example.rentACar.business.dtos.listDtos.ListCarMaintenanceDto;
 import com.example.rentACar.business.requests.createRequests.CreateCarMaintenanceRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeleteCarMaintenanceRequest;
 import com.example.rentACar.business.requests.updateRequests.UpdateCarMaintenanceRequest;
@@ -24,9 +28,11 @@ import com.example.rentACar.core.results.Result;
 public class CarMaintenancesController {
 	
 	private CarMaintenanceService carMaintenanceService;
+	
 
 	@Autowired
-	public CarMaintenanceController(CarMaintenanceService carMaintenanceService) {
+	public CarMaintenancesController(CarMaintenanceService carMaintenanceService) {
+		super();
 		this.carMaintenanceService = carMaintenanceService;
 	}
 
@@ -36,13 +42,13 @@ public class CarMaintenancesController {
 	}
 
 	@GetMapping("/get/{id}")
-	public DataResult<CarMaintenanceDto> get(@RequestParam int id) {
-		return carMaintenanceService.getById(id);
+	public DataResult<GetCarMaintenanceDto> get(@RequestParam int carMaintenanceId) {
+		return this.carMaintenanceService.getByCarId(carMaintenanceId);
 	}
 
-	@PostMapping("/save")
+	@PostMapping("/create")
 	public Result add(@RequestBody @Valid CreateCarMaintenanceRequest createCarMaintenanceRequest) {
-		return carMaintenanceService.add(createCarMaintenanceRequest);
+		return carMaintenanceService.create(createCarMaintenanceRequest);
 	}
 
 	@DeleteMapping("/delete")
@@ -56,7 +62,7 @@ public class CarMaintenancesController {
 	}
 
 	@GetMapping("/getAllByCar/{id}")
-	public DataResult<List<ListCarMaintenanceDto>> getAllByCar(@RequestParam int id) {
-		return carMaintenanceService.getAllByCar(id);
+	public DataResult<GetCarMaintenanceDto> getAllByCar(@RequestParam int carId) {
+		return carMaintenanceService.getByCarId(carId);
 	}
 }

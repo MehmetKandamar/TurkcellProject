@@ -1,4 +1,4 @@
-package com.example.rentACar.business.dtos.listDtos;
+package com.example.rentACar.business.requests.deleteRequests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ListAdditionalServiceItemDto {
 
+public class DeleteInvoiceRequest {
 	private int id;
-	private String name;
-	private double price;
+
 }

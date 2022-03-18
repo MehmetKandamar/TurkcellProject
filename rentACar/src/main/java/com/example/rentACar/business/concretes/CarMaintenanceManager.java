@@ -6,11 +6,11 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.example.rentACar.business.abstracts.CarMaintenanceService;
-import com.example.rentACar.business.dtos.getDtos.GetCarMaintenanceDto;
 import com.example.rentACar.business.dtos.listDtos.ListCarMaintenanceDto;
 import com.example.rentACar.business.requests.createRequests.CreateCarMaintenanceRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeleteCarMaintenanceRequest;
 import com.example.rentACar.business.requests.updateRequests.UpdateCarMaintenanceRequest;
+import com.example.rentACar.core.exceptions.BusinessException;
 import com.example.rentACar.core.results.DataResult;
 import com.example.rentACar.core.results.ErrorResult;
 import com.example.rentACar.core.results.Result;
@@ -49,12 +49,6 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 	}
 
 	@Override
-	public DataResult<GetCarMaintenanceDto> getByCarId(int carId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Result delete(DeleteCarMaintenanceRequest deleteCarMaintenanceRequest) {
 		CarMaintenance carMaintenance = this.modelMapperService.forRequest().map(deleteCarMaintenanceRequest, CarMaintenance.class);
 		this.carMaintenanceDao.delete(carMaintenance);
@@ -85,9 +79,26 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 	}
 
 	@Override
-	public DataResult<List<CarMaintenance>> getCarByCarId(int carId) {
-		// TODO Auto-generated method stub
-		return null;
+	public DataResult<List<ListCarMaintenanceDto>> getAllByCarId(int carId) {
+		
+        List<CarMaintenance> carMaintenanceList = this.carMaintenanceDao.getAllByCarId(carId);
+        List<ListCarMaintenanceDto> response = carMaintenanceList.stream()
+                .map(carMaintenance -> modelMapperService.forDto().map(carMaintenance, ListCarMaintenanceDto.class))
+                .collect(Collectors.toList());
+
+        return new SuccessDataResult<List<ListCarMaintenanceDto>>(response);
+
+
+	}
+
+	@Override
+	public Result isCarInMaintenance(int carId) throws BusinessException {
+		if(this.carMaintenanceDao.findByCarIdAndReturnDateIsNull(carId) != null)
+			throw new BusinessException("Rental can't be added (Car is under maintenance at requested times");
+		
+		else
+			return new SuccessResult();
+
 	}
 	
 	

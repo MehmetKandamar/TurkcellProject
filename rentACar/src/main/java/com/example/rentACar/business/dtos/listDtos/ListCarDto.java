@@ -16,6 +16,7 @@ public class ListCarDto {
 	private double dailyPrice;
 	private String modelYear;
 	private String description;
-	private Brand brand;
-	private Color color;
+	private Brand brandName;
+	private Color colorName;
+	private int mileage;
 }

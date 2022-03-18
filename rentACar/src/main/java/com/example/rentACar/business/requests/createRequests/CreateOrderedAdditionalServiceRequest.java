@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateAdditionalServiceItemRequest {
-	
-	private String name;
-	private double price;
+public class CreateOrderedAdditionalServiceRequest {
+
+	private int rentalId;
+	private int additionalServiceId;
 }

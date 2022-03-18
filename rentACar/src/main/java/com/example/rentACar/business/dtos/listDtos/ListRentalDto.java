@@ -10,9 +10,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ListRentalDto {
-	private int id;
-	private int carId;
-	private int customerId;
-	private LocalDate rentDate;
-	private LocalDate returnDate;
+
+    private int rentalId;
+    private LocalDate rentDate;
+    private LocalDate returnDate;
+    private double additionalPrice;    
+    private int customerId;
+    private int carId;
+    private int initialMileage;
+    private int returnMileage;
+
 }

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.rentACar.business.abstracts.CarMaintenanceService;
-import com.example.rentACar.business.dtos.getDtos.GetCarMaintenanceDto;
 import com.example.rentACar.business.dtos.listDtos.ListCarMaintenanceDto;
 import com.example.rentACar.business.requests.createRequests.CreateCarMaintenanceRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeleteCarMaintenanceRequest;
@@ -41,9 +40,9 @@ public class CarMaintenancesController {
 		return carMaintenanceService.getAll();
 	}
 
-	@GetMapping("/get/{id}")
-	public DataResult<GetCarMaintenanceDto> get(@RequestParam int carMaintenanceId) {
-		return this.carMaintenanceService.getByCarId(carMaintenanceId);
+	@GetMapping("/getAllByCarId")
+	public DataResult<List<ListCarMaintenanceDto>> getAllByCarId(@RequestParam int carId) {
+		return this.carMaintenanceService.getAllByCarId(carId);
 	}
 
 	@PostMapping("/create")
@@ -62,7 +61,7 @@ public class CarMaintenancesController {
 	}
 
 	@GetMapping("/getAllByCar/{id}")
-	public DataResult<GetCarMaintenanceDto> getAllByCar(@RequestParam int carId) {
-		return carMaintenanceService.getByCarId(carId);
+	public DataResult<List<ListCarMaintenanceDto>> getAllByCar(@RequestParam int carId) {
+		return carMaintenanceService.getAllByCarId(carId);
 	}
 }

@@ -9,7 +9,7 @@ import com.example.rentACar.entities.concretes.Rental;
 
 @Repository
 public interface RentalDao extends JpaRepository<Rental, Integer>{
-	Rental getRentalById(int rentalId);
-	List<Rental> getRentalsByCarId(int carId);
-	List<Rental> getRentalsByCustomerId(int customerId);
+	List<Rental> findAllByCustomerId(int customerId);
+	Rental findByCarIdAndReturnDateIsNull(int carId);
+
 }

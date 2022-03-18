@@ -35,4 +35,7 @@ public class CreateCarRequest {
 	@NotNull
 	@Min(0)
 	private int colorId;
+	
+	@NotNull
+	private int mileage;
 }

@@ -1,5 +1,6 @@
 package com.example.rentACar.entities.concretes;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -28,7 +29,11 @@ public class Customer extends User{
 	@Column(name="customer_id", insertable= false, updatable = false)
 	private int customerId;
 	
+	private LocalDate registeredAt;
+	
 	@OneToMany(mappedBy = "customer")
     private List<Rental> rentals;
-
+	
+	@OneToMany(mappedBy = "customer")
+	private List<Invoice> invoices;
 }

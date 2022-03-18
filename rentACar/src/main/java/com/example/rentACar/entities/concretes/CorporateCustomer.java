@@ -17,8 +17,6 @@ import lombok.NoArgsConstructor;
 @PrimaryKeyJoinColumn(name = "customer_id")
 public class CorporateCustomer extends Customer{
 	
-	
-	
 	@Column(name = "company_name")
 	private String companyName;
 	 

@@ -35,4 +35,7 @@ public class UpdateCarRequest {
 	@NotNull
 	@Min(1)
 	private int colorId;
+	
+	@NotNull
+	private int mileage;
 }

@@ -2,6 +2,8 @@ package com.example.rentACar.business.requests.updateRequests;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,9 +12,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateRentalRequest {
-	 private int id;
-	    private int carId;
-	    private int customerId;
-	    private LocalDate rentDate;
-	    private LocalDate returnDate;
+	private int id;
+    private int carId;
+    private double additionalPrice;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate rentDate;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate returnDate;
+    
+    private int initialCityId;
+    private int returnCityId;
+    private int customerId;
+    private int initialMileage;
+    private int returnMileage;
+
 }

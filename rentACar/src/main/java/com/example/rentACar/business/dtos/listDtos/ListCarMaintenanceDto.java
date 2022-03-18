@@ -1,6 +1,6 @@
 package com.example.rentACar.business.dtos.listDtos;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ListCarMaintenanceDto {
 	
-	private int id;
-	private String description;
-	private Date returnDate;
+	private int carMaintenanceId;
+	private String maintenanceDescription;
+	private LocalDate returnDate;
 	private int carId;
 
 }

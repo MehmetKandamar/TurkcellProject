@@ -1,12 +1,11 @@
 package com.example.rentACar.dataAccess.abstracts;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import com.example.rentACar.entities.concretes.OrderedAdditionalService;
+import com.example.rentACar.entities.concretes.AdditionalService;
 
-public interface AdditionalServiceDao extends JpaRepository<OrderedAdditionalService, Integer>{
+@Repository
+public interface AdditionalServiceDao extends JpaRepository<AdditionalService, Integer>{
 
-	List<OrderedAdditionalService> findAllByRentalId(int RentalId);
 }

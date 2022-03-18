@@ -11,6 +11,8 @@ public class ListAdditionalServiceDto {
 
 	private int customerId;
 	private int rentalId;
-	private int additionalServiceItemId;
+	private int additionalServiceId;
+	private double additionalServicePrice;
+	private String additionalServiceName;
 
 }

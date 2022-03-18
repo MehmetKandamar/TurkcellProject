@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ListOrderedAdditionalServiceDto {
 
-	private int orderedAdditionalId;
+	private int orderedAdditionalServiceId;
 	private int rentalId;
-	private int additionalServiceItemId;
 }

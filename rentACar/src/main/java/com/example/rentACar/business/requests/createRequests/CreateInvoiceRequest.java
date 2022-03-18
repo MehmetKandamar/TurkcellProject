@@ -1,5 +1,7 @@
 package com.example.rentACar.business.requests.createRequests;
 
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,8 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateOrderedAdditionalServiceItemRequest {
 
+public class CreateInvoiceRequest {
+	private String invoiceNumber;
+	private LocalDate creationDate;
+	private int numberOfDaysRented;
 	private int rentalId;
-	private int additionalServiceItemId;
+	private int customerId;
+
 }

@@ -33,8 +33,11 @@ public class RentACarApplication {
 
 	@ExceptionHandler
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	public ErrorDataResult<Object> handleValidationExceptions(MethodArgumentNotValidException argumentNotValidException) {
+	public ErrorDataResult<Object> handleValidationExceptions(
+			MethodArgumentNotValidException argumentNotValidException) {
+
 		Map<String, String> validationErrors = new HashMap<String, String>();
+
 		for (FieldError fieldError : argumentNotValidException.getBindingResult().getFieldErrors()) {
 			validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
 		}
@@ -46,7 +49,9 @@ public class RentACarApplication {
 	@ExceptionHandler
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public ErrorDataResult<Object> handleBusinessExceptions(BusinessException businessException) {
-		ErrorDataResult<Object> errorDataResult = new ErrorDataResult<Object>(businessException.getMessage(),"Business.Error");
+		ErrorDataResult<Object> errorDataResult = new ErrorDataResult<Object>(businessException.getMessage(),
+				"BusinessException error");
 		return errorDataResult;
 	}
+
 }

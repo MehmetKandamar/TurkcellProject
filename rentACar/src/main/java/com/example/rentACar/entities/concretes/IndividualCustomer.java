@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "individual_customers")
-@PrimaryKeyJoinColumn(name = "customer_id")
+@PrimaryKeyJoinColumn(name = "individual_customer_id", referencedColumnName = "customer_id")
 public class IndividualCustomer extends Customer{
 	
 	@Column(name="first_name")

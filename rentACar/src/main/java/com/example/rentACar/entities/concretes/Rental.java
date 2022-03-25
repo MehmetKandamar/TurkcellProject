@@ -40,6 +40,9 @@ public class Rental {
     @Column(name = "additional_price")
     private double additionalPrice;
     
+    @Column(name = "total_price")
+    private double totalPrice;
+    
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer; 
@@ -49,7 +52,7 @@ public class Rental {
     private Car car;
     
     @OneToMany(mappedBy = "rental")
-	private List<OrderedAdditionalService> orderedAdditionalServices;
+	private List<OrderedAdditionalService> orderedAdditionalService;
     
     @ManyToOne
     @JoinColumn(name = "initial_city_id")
@@ -61,10 +64,10 @@ public class Rental {
     
 
     @Column(name = "initial_mileage")
-    private int initialMileage;
+    private Integer initialMileage;
     
     @Column(name = "return_mileage")
-    private int returnMileage;
+    private Integer returnMileage;
     
     @OneToOne(mappedBy = "rental")
     private Invoice invoice;

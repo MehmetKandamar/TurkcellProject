@@ -7,8 +7,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateCityRequest {
+public class CreateCreditCardDetailsRequest {
+
+private String cardNumber;
 	
 	
-	private String cityName;
+	private int cVV;
+	private int year;
+	private int month;
+	
+	private int customerId;
 }

@@ -43,7 +43,7 @@ public class OrderedAdditionalServiceManager implements OrderedAdditionalService
 
 	@Override
 	public DataResult<List<ListOrderedAdditionalServiceDto>> findAllByRentalId(int rentalId) {
-		List<OrderedAdditionalService> orderedAdditionalServiceList = this.orderedAdditionalServiceDao.findAllByRentalId(rentalId);
+		List<OrderedAdditionalService> orderedAdditionalServiceList = this.orderedAdditionalServiceDao.findAllByRental_RentalId(rentalId);
 		List<ListOrderedAdditionalServiceDto> response = orderedAdditionalServiceList.stream().map(
 				orderedAdditionalService -> modelMapperService.forDto().map(orderedAdditionalService, ListOrderedAdditionalServiceDto.class))
 				.collect(Collectors.toList());

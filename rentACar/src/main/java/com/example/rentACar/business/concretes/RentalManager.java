@@ -4,13 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import com.example.rentACar.business.abstracts.AdditionalServiceService;
-import com.example.rentACar.business.abstracts.CarMaintenanceService;
-import com.example.rentACar.business.abstracts.CarService;
-import com.example.rentACar.business.abstracts.OrderedAdditionalServiceService;
 import com.example.rentACar.business.abstracts.RentalService;
 import com.example.rentACar.business.dtos.getDtos.GetRentalDto;
 import com.example.rentACar.business.dtos.listDtos.ListRentalDto;
@@ -33,24 +28,13 @@ public class RentalManager implements RentalService{
 
 	private RentalDao rentalDao;
 	private ModelMapperService modelMapperService;
-	private CarMaintenanceService carMaintenanceService;
-	private CarService carService;
-	private AdditionalServiceService additionalServiceService;
-	private OrderedAdditionalServiceService orderedAdditionalServiceService;
 
 	
 	@Autowired
-	public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService, 
-			@Lazy CarMaintenanceService carMaintenanceService, CarService carService, 
-			@Lazy OrderedAdditionalServiceService orderedAdditionalServiceService, 
-			AdditionalServiceService additionalServiceService) {
+	public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService) {
 		
 		this.rentalDao = rentalDao;
 		this.modelMapperService = modelMapperService;
-		this.carMaintenanceService = carMaintenanceService;
-		this.carService = carService;
-		this.additionalServiceService = additionalServiceService;
-		this.orderedAdditionalServiceService = orderedAdditionalServiceService;
 	}
 
 	
@@ -80,7 +64,7 @@ public class RentalManager implements RentalService{
 	@Override
 	public DataResult<List<GetRentalDto>> getByCustomerId(int customerId) {
 		
-		var result = this.rentalDao.findAllByCustomerId(customerId);
+		var result = this.rentalDao.findAllByCustomer_CustomerId(customerId);
         
         List<GetRentalDto> response = result.stream()
         		.map(rental -> this.modelMapperService.forDto().map(rental, GetRentalDto.class))

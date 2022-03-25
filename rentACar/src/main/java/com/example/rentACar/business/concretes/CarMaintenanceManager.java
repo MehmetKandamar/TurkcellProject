@@ -22,10 +22,12 @@ import com.example.rentACar.entities.concretes.CarMaintenance;
 
 @Service
 public class CarMaintenanceManager implements CarMaintenanceService{
-	
+	 
+	// Dependencies
 	private CarMaintenanceDao carMaintenanceDao;
 	private ModelMapperService modelMapperService;
 	
+	//Dependency Injection
 	public CarMaintenanceManager(CarMaintenanceDao carMaintenanceDao, ModelMapperService modelMapperService) {
 		super();
 		this.carMaintenanceDao = carMaintenanceDao;
@@ -81,7 +83,7 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 	@Override
 	public DataResult<List<ListCarMaintenanceDto>> getAllByCarId(int carId) {
 		
-        List<CarMaintenance> carMaintenanceList = this.carMaintenanceDao.getAllByCarId(carId);
+        List<CarMaintenance> carMaintenanceList = this.carMaintenanceDao.getAllByCarMaintenanceId(carId);
         List<ListCarMaintenanceDto> response = carMaintenanceList.stream()
                 .map(carMaintenance -> modelMapperService.forDto().map(carMaintenance, ListCarMaintenanceDto.class))
                 .collect(Collectors.toList());
@@ -93,7 +95,7 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 
 	@Override
 	public Result isCarInMaintenance(int carId) throws BusinessException {
-		if(this.carMaintenanceDao.findByCarIdAndReturnDateIsNull(carId) != null)
+		if(this.carMaintenanceDao.findByCarMaintenanceIdAndReturnDateIsNull(carId) != null)
 			throw new BusinessException("Rental can't be added (Car is under maintenance at requested times");
 		
 		else

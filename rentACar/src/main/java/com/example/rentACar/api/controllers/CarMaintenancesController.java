@@ -23,7 +23,7 @@ import com.example.rentACar.core.results.DataResult;
 import com.example.rentACar.core.results.Result;
 
 @RestController
-@RequestMapping("/api/maintenances")
+@RequestMapping("/api/carMaintenances")
 public class CarMaintenancesController {
 	
 	private CarMaintenanceService carMaintenanceService;
@@ -31,7 +31,6 @@ public class CarMaintenancesController {
 
 	@Autowired
 	public CarMaintenancesController(CarMaintenanceService carMaintenanceService) {
-		super();
 		this.carMaintenanceService = carMaintenanceService;
 	}
 

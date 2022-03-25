@@ -1,5 +1,8 @@
 package com.example.rentACar.business.concretes;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +47,17 @@ public class AdditionalServiceManager implements AdditionalServiceService {
 			ListAdditionalServiceDto response = modelMapperService.forDto().map(additionalService, ListAdditionalServiceDto.class);
 			return new SuccessDataResult<ListAdditionalServiceDto>(response);
 		}else return new ErrorDataResult<ListAdditionalServiceDto>();
+	}
+
+	@Override
+	public DataResult<List<ListAdditionalServiceDto>> getAll() {
+
+		var result = this.additionalServiceDao.findAll();
+		
+		List<ListAdditionalServiceDto> response = result.stream().map(additionalService -> this.modelMapperService.forDto().map(additionalService, ListAdditionalServiceDto.class)).collect(Collectors.toList());
+		
+		return new SuccessDataResult<List<ListAdditionalServiceDto>>(response);
+				
 	}
 
 

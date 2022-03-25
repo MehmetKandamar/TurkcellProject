@@ -1,7 +1,5 @@
 package com.example.rentACar.entities.concretes;
 
-import java.time.LocalDate;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,25 +17,27 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="car_maintenances")
-public class CarMaintenance {
-	
+@Table(name = "credit_card_details")
+public class CreditCardDetails {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "car_maintenance_id")
-	private int carMaintenanceId;
-	
-	@Column(name="maintenance_description")
-	private String maintenanceDescription;
-	
-	@Column(name="maintenance_date")
-	private LocalDate maintenanceDate;
-	
-	@Column(name="return_date")
-	private LocalDate returnDate;
-	
-	@ManyToOne
-	@JoinColumn(name="car_id")
-	private Car car;
+	@Column(name = "id")
+	private int creditCardDetailsId;
 
+	@Column(name = "card_number")
+	private String cardNumber;
+
+	@Column(name = "cvv")
+	private int cVV;
+
+	@Column(name = "year")
+	private int year;
+
+	@Column(name = "month")
+	private int month;
+
+	@ManyToOne
+	@JoinColumn(name = "customer_id") 
+	private Customer customer;
 }

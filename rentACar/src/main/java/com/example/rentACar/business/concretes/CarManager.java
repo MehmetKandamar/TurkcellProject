@@ -55,7 +55,7 @@ public class CarManager implements CarService{
 	}
 
 	@Override
-	public DataResult<GetCarDto> getById(int carId) throws BusinessException{
+	public DataResult<GetCarDto> getById(int carId){
 		var result = this.carDao.getByCarId(carId);
 		if(result != null) {
 			

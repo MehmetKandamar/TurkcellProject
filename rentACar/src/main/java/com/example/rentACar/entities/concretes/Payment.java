@@ -1,12 +1,14 @@
 package com.example.rentACar.entities.concretes;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -17,19 +19,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@Table(name="users")
-public class User {
+@Table(name = "payments")
+public class Payment {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_id")
-	private int userId;
+	@Column(name = "payment_id")
+	private int paymentId;
 	
-	@Column(name = "email", unique = true)
-	private String email;
+	@Column(name = "total_payment")
+	private double totalPayment;
 	
-	@Column(name = "password")
-	private String password;
-
+	@Column(name = "payment_date")
+	private LocalDate paymentDate;
+	
+	@ManyToOne
+	@JoinColumn(name = "rental_id")	
+	private Rental rental;
 }

@@ -37,8 +37,8 @@ public class ColorManager implements ColorService{
 	public DataResult<List<ListColorDto>> getAll() {
         var result = this.colorDao.findAll();
         List<ListColorDto> response = result.stream()
-                .map(product->this.modelMapperService.forDto()
-                        .map(product, ListColorDto.class)).collect(Collectors.toList());
+                .map(color->this.modelMapperService.forDto()
+                        .map(color, ListColorDto.class)).collect(Collectors.toList());
         return new SuccessDataResult<List<ListColorDto>>(response);
 
 	}
@@ -46,8 +46,8 @@ public class ColorManager implements ColorService{
 	@Override
 	public Result create(CreateColorRequest createColorRequest) throws BusinessException{
 		   Color color = this.modelMapperService.forRequest().map(createColorRequest, Color.class);
-		   if(colorDao.existsByColorName(createColorRequest.getColorName())) {
-			   return new ErrorResult("Color.NotFound");
+		   if(colorDao.existsByColorName(color.getColorName())) {
+			   return new ErrorResult("Color.Exists");
 		   }
 		  colorDao.save(color);
 		  return new SuccessResult();

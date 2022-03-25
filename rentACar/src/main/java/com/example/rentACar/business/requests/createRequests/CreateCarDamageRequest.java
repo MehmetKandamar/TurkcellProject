@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateCityRequest {
-	
-	
-	private String cityName;
+public class CreateCarDamageRequest {
+
+	private String carDamageDescription;
+	private int carId;
 }

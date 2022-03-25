@@ -12,6 +12,6 @@ import com.example.rentACar.entities.concretes.Color;
 public interface ColorDao extends JpaRepository<Color, Integer>{
 	Color getByColorName(String colorName);
 	Color getByColorId(int colorId);
-	boolean existsByColorName(String name);
-	List<Brand> getColorByName(String name);
+	boolean existsByColorName(String colorName);
+	List<Brand> getBrandByColorName(String name);
 }

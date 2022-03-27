@@ -22,7 +22,7 @@ public class CreditCardDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "credit_card_details_id")
 	private int creditCardDetailsId;
 
 	@Column(name = "card_number")

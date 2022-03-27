@@ -35,8 +35,8 @@ public class CreditCardDetailsController {
 	}
 	
 	@GetMapping("/getById")
-	DataResult<ListCreditCardDetailsDto> getById(@RequestParam int id) {
-		return creditCardDetailsService.getById(id);
+	DataResult<ListCreditCardDetailsDto> getById(@RequestParam int creditCardDetailsId) {
+		return creditCardDetailsService.getByCreditCardDetailsId(creditCardDetailsId);
 		
 	}
 	

@@ -11,7 +11,7 @@ import com.example.rentACar.core.results.Result;
 public interface CreditCardDetailsService {
 
 	DataResult<List<ListCreditCardDetailsDto>> getAll();
-	DataResult<ListCreditCardDetailsDto> getById(int id);
+	DataResult<ListCreditCardDetailsDto> getByCreditCardDetailsId(int creditCardDetailsId);
 	
 	Result create(CreateCreditCardDetailsRequest cardDetailsRequest) throws BusinessException;
 	DataResult<List<ListCreditCardDetailsDto>> getAllByCustomerId(int customerId);

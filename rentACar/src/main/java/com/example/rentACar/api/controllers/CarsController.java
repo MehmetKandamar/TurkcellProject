@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.rentACar.business.abstracts.CarService;
-import com.example.rentACar.business.dtos.getDtos.GetCarDto;
 import com.example.rentACar.business.dtos.listDtos.ListCarDto;
 import com.example.rentACar.business.requests.createRequests.CreateCarRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeleteCarRequest;
@@ -29,7 +28,6 @@ public class CarsController {
 
 	@Autowired
 	public CarsController(CarService carService) {
-		super();
 		this.carService = carService;
 	}
 	
@@ -43,8 +41,8 @@ public class CarsController {
 		return this.carService.create(createCarRequest);
 	}
 	
-	@GetMapping(path = {"/getById", "/getById/{id}"})
-	public DataResult<GetCarDto> getById(@RequestParam("carId") int carId) throws BusinessException{
+	@GetMapping("/getById")
+	public DataResult<ListCarDto> getById(int carId) throws BusinessException{
 		return this.carService.getById(carId);
 	}
 	

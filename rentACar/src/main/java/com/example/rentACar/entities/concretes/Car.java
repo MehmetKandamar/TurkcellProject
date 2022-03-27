@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,6 +28,9 @@ public class Car {
 	@Column(name = "car_id")
 	private int carId;
 	
+	@Column(name ="car_name")
+	private String carName;
+	
 	@Column(name="daily_price")
 	private double dailyPrice;
 	
@@ -36,24 +40,24 @@ public class Car {
 	@Column(name="description")
 	private String description;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="brand_id")
 	private Brand brand;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="color_id")
 	private Color color;
 	
-	@OneToMany(mappedBy = "car")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "car")
 	private List<CarMaintenance>  carMaintenances;
 	
-	@OneToMany(mappedBy = "car")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "car")
 	private List<Rental> rentals;
 	
 	@Column(name = "mileage")
 	private Integer mileage;
 	
-	@OneToMany(mappedBy = "car")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "car")
 	List<CarDamage> carDamages;
 
 }

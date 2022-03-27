@@ -55,12 +55,12 @@ public class CarManager implements CarService{
 	}
 
 	@Override
-	public DataResult<GetCarDto> getById(int carId){
+	public DataResult<ListCarDto> getById(int carId){
 		var result = this.carDao.getByCarId(carId);
 		if(result != null) {
 			
-		GetCarDto response = this.modelMapperService.forDto().map(result, GetCarDto.class);
-		return new SuccessDataResult<GetCarDto>(response);
+		ListCarDto response = this.modelMapperService.forDto().map(result, ListCarDto.class);
+		return new SuccessDataResult<ListCarDto>(response);
 		
 		}
 		throw new BusinessException("Arabaların içerisinde böyle bir id bulunmamaktadır.");

@@ -2,6 +2,7 @@ package com.example.rentACar.entities.concretes;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,7 +30,7 @@ public class OrderedAdditionalService {
 	@JoinColumn(name = "additional_service_id") 
 	private AdditionalService additionalService;	
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "rental_id")  
 	private Rental rental; 
 }

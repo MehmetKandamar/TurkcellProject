@@ -18,6 +18,10 @@ public class UpdateCarRequest {
 	private int carId;
 	
 	@NotNull
+	@Size(min=2)
+	private String carName;
+	
+	@NotNull
 	@Min(0)
 	private int dailyPrice;
 	

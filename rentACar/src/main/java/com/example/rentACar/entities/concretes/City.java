@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,10 +30,10 @@ public class City {
 	@Column(name = "city_name")
 	private String cityName;
 	
-	@OneToMany(mappedBy= "initialCity")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy= "initialCity")
 	private List<Rental> initialCity;
 	
-	@OneToMany(mappedBy= "returnCity")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy= "returnCity")
 	private List<Rental> returnCity;
 
 }

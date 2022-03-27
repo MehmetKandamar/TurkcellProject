@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,22 +44,22 @@ public class Rental {
     @Column(name = "total_price")
     private double totalPrice;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private Customer customer; 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id")
     private Car car;
     
-    @OneToMany(mappedBy = "rental")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "rental")
 	private List<OrderedAdditionalService> orderedAdditionalService;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "initial_city_id")
     private City initialCity;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "return_city_id")
     private City returnCity;
     
@@ -69,7 +70,7 @@ public class Rental {
     @Column(name = "return_mileage")
     private Integer returnMileage;
     
-    @OneToOne(mappedBy = "rental")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "rental")
     private Invoice invoice;
 
 }

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateAdditionalServiceRequest {
 
-	private String name;
-	private double price;
+	private String serviceName;
+	private double sercicePrice;
 
 }

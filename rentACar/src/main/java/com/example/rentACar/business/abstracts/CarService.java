@@ -17,7 +17,7 @@ public interface CarService {
 	Result delete (DeleteCarRequest deleteCarRequest) throws BusinessException;
 	Result update(UpdateCarRequest updateCarRequest) throws BusinessException;
 	
-	DataResult<GetCarDto>  getById(int id) throws BusinessException;
+	DataResult<ListCarDto>  getById(int id) throws BusinessException;
 	DataResult<List<ListCarDto>> getAll();
 	DataResult<List<ListCarDto>> getAllPaged(int pageNo, int pageSize);
 	DataResult<List<ListCarDto>> getAllSorted();

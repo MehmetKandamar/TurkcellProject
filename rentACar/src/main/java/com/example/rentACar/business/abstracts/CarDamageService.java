@@ -11,7 +11,7 @@ import com.example.rentACar.core.results.Result;
 
 public interface CarDamageService {
 
-	Result delete (DeleteCarDamageRequest carDamageId);
+	Result delete (DeleteCarDamageRequest deleteCarDamageRequest);
 	Result update(UpdateCarDamageRequest updateCarDamageRequest);
 	Result create(CreateCarDamageRequest createCarDamageRequest);
 	DataResult<List<ListCarDamageDto>> getAll();

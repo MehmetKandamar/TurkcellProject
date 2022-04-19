@@ -70,7 +70,7 @@ public class PaymentManager implements PaymentService{
 
 		Payment payment = this.modelMapperService.forRequest().map(createPaymentRequest, Payment.class);
 
-		payment.setTotalPayment(totalPrice);
+		payment.setPaymentAmount(totalPrice);;
 
 		payment.setPaymentId(0);
 		this.paymentDao.save(payment);
@@ -103,7 +103,7 @@ public class PaymentManager implements PaymentService{
 	@Override
 	public DataResult<List<ListPaymentDto>> getAllPaged(int pageNo, int pageSize) {
 
-		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize); // Pageable, Sort gibi özellikleri org.springframework.data.domain'den import ederiz.
 
 		List<Payment> result = this.paymentDao.findAll(pageable).getContent();
 		List<ListPaymentDto> response = result.stream()

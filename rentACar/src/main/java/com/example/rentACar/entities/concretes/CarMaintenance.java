@@ -37,7 +37,7 @@ public class CarMaintenance {
 	@Column(name="return_date")
 	private LocalDate returnDate;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="car_id")
 	private Car car;
 

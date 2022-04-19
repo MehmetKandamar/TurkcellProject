@@ -3,9 +3,15 @@ package com.example.rentACar.business.concretes;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.rentACar.business.abstracts.CarMaintenanceService;
+import com.example.rentACar.business.abstracts.CarService;
+import com.example.rentACar.business.abstracts.RentalService;
+import com.example.rentACar.business.dtos.listDtos.ListCarDto;
 import com.example.rentACar.business.dtos.listDtos.ListCarMaintenanceDto;
 import com.example.rentACar.business.requests.createRequests.CreateCarMaintenanceRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeleteCarMaintenanceRequest;
@@ -18,7 +24,9 @@ import com.example.rentACar.core.results.SuccessDataResult;
 import com.example.rentACar.core.results.SuccessResult;
 import com.example.rentACar.core.utilities.mapping.ModelMapperService;
 import com.example.rentACar.dataAccess.abstracts.CarMaintenanceDao;
+import com.example.rentACar.entities.concretes.Car;
 import com.example.rentACar.entities.concretes.CarMaintenance;
+import com.example.rentACar.entities.concretes.Rental;
 
 @Service
 public class CarMaintenanceManager implements CarMaintenanceService{
@@ -26,12 +34,14 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 	// Dependencies
 	private CarMaintenanceDao carMaintenanceDao;
 	private ModelMapperService modelMapperService;
+	private RentalService rentalService;
 	
 	//Dependency Injection
-	public CarMaintenanceManager(CarMaintenanceDao carMaintenanceDao, ModelMapperService modelMapperService) {
+	public CarMaintenanceManager(CarMaintenanceDao carMaintenanceDao, ModelMapperService modelMapperService, @Lazy RentalService rentalService) {
 		super();
 		this.carMaintenanceDao = carMaintenanceDao;
 		this.modelMapperService = modelMapperService;
+		this.rentalService = rentalService;
 	}
 
 	@Override
@@ -45,6 +55,7 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 
 	@Override
 	public Result create(CreateCarMaintenanceRequest createCarMaintenanceRequest) {
+		isCarAvaibleToMaintenance(createCarMaintenanceRequest);
 		CarMaintenance carMaintenance = this.modelMapperService.forRequest().map(createCarMaintenanceRequest, CarMaintenance.class);
 		this.carMaintenanceDao.save(carMaintenance);
 		return new SuccessResult("CarMaintenance.Added");
@@ -70,8 +81,11 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 
 	@Override
 	public DataResult<List<ListCarMaintenanceDto>> getAllPaged(int pageNo, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
+		Pageable pageable=PageRequest.of(pageNo-1, pageSize);
+		List<CarMaintenance> result=this.carMaintenanceDao.findAll(pageable).getContent();
+		List<ListCarMaintenanceDto> response = result.stream()
+				.map(carMaintenance -> this.modelMapperService.forDto().map(carMaintenance, ListCarMaintenanceDto.class)).collect(Collectors.toList());
+		return new SuccessDataResult<List<ListCarMaintenanceDto>>(response);
 	}
 
 	@Override
@@ -83,7 +97,7 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 	@Override
 	public DataResult<List<ListCarMaintenanceDto>> getAllByCarId(int carId) {
 		
-        List<CarMaintenance> carMaintenanceList = this.carMaintenanceDao.getAllByCarMaintenanceId(carId);
+        List<CarMaintenance> carMaintenanceList = this.carMaintenanceDao.getAllByCar_CarId(carId);
         List<ListCarMaintenanceDto> response = carMaintenanceList.stream()
                 .map(carMaintenance -> modelMapperService.forDto().map(carMaintenance, ListCarMaintenanceDto.class))
                 .collect(Collectors.toList());
@@ -101,6 +115,39 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 		else
 			return new SuccessResult();
 
+	}
+	
+	private void isCarAvaibleToMaintenance(CreateCarMaintenanceRequest createCarMaintenanceRequest) throws BusinessException{
+		
+		List<Rental> rentals = this.rentalService.getRentalsByCarId(createCarMaintenanceRequest.getCarId());
+		
+		if(rentals != null) {
+			if (rentals.isEmpty()) {
+				
+			}
+			for (Rental rental : rentals) {
+				if (rental.getRentDate() == null){
+					throw new BusinessException("Araç kirada ve dönüş tarihi belli değil");
+				}
+			}
+			
+			for (Rental rental : rentals) {
+				
+				if (createCarMaintenanceRequest.getReturnDate().isBefore(rental.getReturnDate()) || createCarMaintenanceRequest.getReturnDate().isAfter(rental.getRentDate())) {
+					throw new BusinessException("Araç kirada ve bakıma gönderilemez.");
+				}
+			}
+		}
+		
+	}
+
+	@Override
+	public List<CarMaintenance> getMaintenancesByCarId(int carId) {
+		List<CarMaintenance> maintenances = carMaintenanceDao.findMaintenancesByCar_CarId(carId);
+		if (maintenances.isEmpty()) {
+			return null;
+		}
+		return maintenances;
 	}
 	
 	

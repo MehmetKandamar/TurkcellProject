@@ -78,7 +78,7 @@ public class BrandManager implements BrandService{
 
 	}
 	
-	void checkIfBrandExists(Brand brand) throws BusinessException {
+	private void checkIfBrandExists(Brand brand) throws BusinessException {
 		if (this.brandDao.getByBrandName(brand.getBrandName()).stream().count() != 0) {
 			throw new BusinessException("Brand already exists!");
 		}

@@ -17,4 +17,5 @@ public class ListCarDto {
 	private String brandName;
 	private String colorName;
 	private int mileage;
+	private String damageDescription;
 }

@@ -6,10 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.example.rentACar.entities.concretes.CarMaintenance;
+import com.example.rentACar.entities.concretes.Rental;
 
 @Repository
 public interface CarMaintenanceDao extends JpaRepository<CarMaintenance, Integer>{
-	List<CarMaintenance> getAllByCarMaintenanceId(int carMaintenanceId);
 	
+	List<CarMaintenance> getAllByCar_CarId(int carId);
+	List<CarMaintenance> findMaintenancesByCar_CarId(int carId);
 	CarMaintenance findByCarMaintenanceIdAndReturnDateIsNull(int carMaintenanceId);
 }

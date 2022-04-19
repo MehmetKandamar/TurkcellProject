@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.rentACar.business.abstracts.AdditionalServiceService;
 import com.example.rentACar.business.dtos.listDtos.ListAdditionalServiceDto;
 import com.example.rentACar.business.requests.createRequests.CreateAdditionalServiceRequest;
+import com.example.rentACar.business.requests.updateRequests.UpdateAdditionalServiceRequest;
 import com.example.rentACar.core.results.DataResult;
 import com.example.rentACar.core.results.ErrorDataResult;
 import com.example.rentACar.core.results.Result;
@@ -33,7 +34,7 @@ public class AdditionalServiceManager implements AdditionalServiceService {
 	}
 
 	@Override
-	public Result add(CreateAdditionalServiceRequest createAdditionalServiceRequest) {
+	public Result create(CreateAdditionalServiceRequest createAdditionalServiceRequest) {
 		AdditionalService additionalService = this.modelMapperService.forRequest().map(createAdditionalServiceRequest, AdditionalService.class);
 		this.additionalServiceDao.save(additionalService);
 		return new SuccessResult("AdditionalService.Added");
@@ -58,6 +59,12 @@ public class AdditionalServiceManager implements AdditionalServiceService {
 		
 		return new SuccessDataResult<List<ListAdditionalServiceDto>>(response);
 				
+	}
+
+	@Override
+	public Result update(UpdateAdditionalServiceRequest updateAdditionalServiceRequest) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

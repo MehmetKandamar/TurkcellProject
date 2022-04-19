@@ -2,7 +2,8 @@ package com.example.rentACar.business.abstracts;
 
 import java.util.List;
 
-import com.example.rentACar.business.dtos.getDtos.GetCarDto;
+import org.springframework.data.domain.Sort;
+
 import com.example.rentACar.business.dtos.listDtos.ListCarDto;
 import com.example.rentACar.business.requests.createRequests.CreateCarRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeleteCarRequest;
@@ -20,6 +21,6 @@ public interface CarService {
 	DataResult<ListCarDto>  getById(int id) throws BusinessException;
 	DataResult<List<ListCarDto>> getAll();
 	DataResult<List<ListCarDto>> getAllPaged(int pageNo, int pageSize);
-	DataResult<List<ListCarDto>> getAllSorted();
+	DataResult<List<ListCarDto>>  getAllSorted(Sort.Direction direction);
 	DataResult<List<ListCarDto>> listByPriceLessThanEqual(int maxPrice);
 }

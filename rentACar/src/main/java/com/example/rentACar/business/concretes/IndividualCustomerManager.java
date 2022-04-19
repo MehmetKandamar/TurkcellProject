@@ -1,5 +1,6 @@
 package com.example.rentACar.business.concretes;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,8 +26,8 @@ public class IndividualCustomerManager implements IndividualCustomerService{
 	private ModelMapperService modelMapperService;
 	
 	@Autowired
-	public IndividualCustomerManager(IndividualCustomerDao customerDao, ModelMapperService modelMapperService) {
-		this.individualCustomerDao = customerDao;
+	public IndividualCustomerManager(IndividualCustomerDao individualCustomerDao, ModelMapperService modelMapperService) {
+		this.individualCustomerDao = individualCustomerDao;
 		this.modelMapperService = modelMapperService;
 	}
 
@@ -43,8 +44,8 @@ public class IndividualCustomerManager implements IndividualCustomerService{
 	}
 
 	@Override
-	public DataResult<ListIndividualCustomerDto> getById(int id) {
-		IndividualCustomer result = this.individualCustomerDao.getById(id);
+	public DataResult<ListIndividualCustomerDto> getAllByCustomerId(int customerId) {
+		IndividualCustomer result = this.individualCustomerDao.getAllByCustomerId(customerId);
 		
 		if(result == null) {
 			return new ErrorDataResult<ListIndividualCustomerDto>("Car.NotFound");
@@ -58,7 +59,10 @@ public class IndividualCustomerManager implements IndividualCustomerService{
 	@Override
 	public Result create(CreateIndividualCustomerRequest createIndividualCustomerRequest) {
 		IndividualCustomer customer = this.modelMapperService.forRequest().map(createIndividualCustomerRequest, IndividualCustomer.class);
+		customer.setRegistrationDate(LocalDate.now());
+		customer.setCustomerId(0);
 		this.individualCustomerDao.save(customer);
+		
 		
 		return new SuccessResult("IndividualCustomer.Added");
 

@@ -61,7 +61,7 @@ public class CreditCardDetailsManager implements CreditCardDetailsService{
 	@Override
 	public DataResult<List<ListCreditCardDetailsDto>> getAllByCustomerId(int customerId) {
 		
-		var result = this.creditCardDetailsDao.findAllByCustomer_CustomerId(customerId);
+		var result = this.creditCardDetailsDao.findCreditCardDetailsByCustomer_CustomerId(customerId);
 		
 		List<ListCreditCardDetailsDto> response = result.stream()
 				.map(creditCardDetails -> this.modelMapperService.forDto().map(creditCardDetails, ListCreditCardDetailsDto.class))

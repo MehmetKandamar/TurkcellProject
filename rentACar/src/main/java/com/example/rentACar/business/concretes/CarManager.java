@@ -3,13 +3,17 @@ package com.example.rentACar.business.concretes;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.rentACar.business.abstracts.CarService;
+import com.example.rentACar.business.constants.Messages;
 import com.example.rentACar.business.dtos.getDtos.GetCarDto;
 import com.example.rentACar.business.dtos.listDtos.ListCarDto;
 import com.example.rentACar.business.requests.createRequests.CreateCarRequest;
@@ -50,7 +54,7 @@ public class CarManager implements CarService{
 	public Result create(CreateCarRequest createCarRequest) throws BusinessException{
 		Car car = this.modelMapperService.forRequest().map(createCarRequest, Car.class);
 		this.carDao.save(car);
-		return new SuccessResult("Car.Added");
+		return new SuccessResult(Messages.CarAdded);
 		
 	}
 
@@ -63,7 +67,7 @@ public class CarManager implements CarService{
 		return new SuccessDataResult<ListCarDto>(response);
 		
 		}
-		throw new BusinessException("Arabaların içerisinde böyle bir id bulunmamaktadır.");
+		throw new BusinessException(Messages.IdIsNotFound);
 		
 		
 	}
@@ -104,12 +108,11 @@ public class CarManager implements CarService{
 	}
 
 	@Override
-	public DataResult<List<ListCarDto>> getAllSorted() {
-		Sort sort=Sort.by(Sort.Direction.ASC,"dailyPrice");
-		List<Car> result=this.carDao.findAll(sort);
-		List<ListCarDto> response = result.stream()
-				.map(car -> this.modelMapperService.forDto().map(car, ListCarDto.class)).collect(Collectors.toList());
-		return new SuccessDataResult<List<ListCarDto>>(response);
+	public DataResult<List<ListCarDto>> getAllSorted(Direction direction) {
+		Sort sort = Sort.by(direction, "dailyPrice");
+		List<Car> result =carDao.findAll(sort);
+		List<ListCarDto> response = result.stream().map(car-> modelMapperService.forDto().map(car, ListCarDto.class)).collect(Collectors.toList());
+	return new SuccessDataResult<List<ListCarDto>>(response);
 	}
 
 	@Override

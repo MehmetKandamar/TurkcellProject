@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,17 +31,23 @@ public class Invoice {
 	@Column(name = "invoice_number")
 	private String invoiceNumber;
 	
-	@Column(name = "creation_date")
-	private LocalDate creationDate;
+	@Column(name = "invoice_creation_date")
+	private LocalDate invoiceCreationDate;
 	
 	@Column(name = "number_of_days_rented")
 	private int numberOfDaysRented;
 	
+	@Column(name = "extra_payment")
+	private double extraPayment;
+	
+	@Column(name = "total_payment")
+	private Double totalPayment;
+	 
 	@OneToOne
 	@JoinColumn(name = "rental_id")
 	private Rental rental;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 

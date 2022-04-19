@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.rentACar.business.abstracts.CarMaintenanceService;
+import com.example.rentACar.business.abstracts.CarService;
+import com.example.rentACar.business.abstracts.CustomerService;
 import com.example.rentACar.business.abstracts.RentalService;
 import com.example.rentACar.business.dtos.getDtos.GetRentalDto;
 import com.example.rentACar.business.dtos.listDtos.ListRentalDto;
@@ -21,20 +24,26 @@ import com.example.rentACar.core.results.SuccessDataResult;
 import com.example.rentACar.core.results.SuccessResult;
 import com.example.rentACar.core.utilities.mapping.ModelMapperService;
 import com.example.rentACar.dataAccess.abstracts.RentalDao;
+import com.example.rentACar.entities.concretes.CarMaintenance;
 import com.example.rentACar.entities.concretes.Rental;
 
 @Service
 public class RentalManager implements RentalService{
 
-	private RentalDao rentalDao;
-	private ModelMapperService modelMapperService;
+	private final RentalDao rentalDao;
+	private final ModelMapperService modelMapperService;
+	private final CarMaintenanceService carMaintenanceService;
+	private final CarService carService;
+	private final CustomerService customerService;
 
-	
 	@Autowired
-	public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService) {
-		
+	public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService,
+			CarMaintenanceService carMaintenanceService, CarService carService, CustomerService customerService) {
 		this.rentalDao = rentalDao;
 		this.modelMapperService = modelMapperService;
+		this.carMaintenanceService = carMaintenanceService;
+		this.carService = carService;
+		this.customerService = customerService;
 	}
 
 	
@@ -73,15 +82,13 @@ public class RentalManager implements RentalService{
 	}
 
 	@Override
-	public Result create(CreateRentalRequest createRentalRequest) {
+	public Result create(CreateRentalRequest createRentalRequest) throws BusinessException{
+		
+		isCarAvaibleToRent(createRentalRequest);
 		
 		Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
-		
-		if (!checkIsUnderMaintenance(rental)) {
-			return new ErrorResult("CarRental.NotAdded , Car is under maintenance!");
-		}
 		this.rentalDao.save(rental);
-		return new SuccessResult("The rental information of the vehicle with id "+createRentalRequest.getCarId()+" has been updated from the database.");
+		return new SuccessResult("The rental information of the car with id "+createRentalRequest.getCarId()+" has been updated from the database.");
 	}
 
 	@Override
@@ -100,7 +107,16 @@ public class RentalManager implements RentalService{
 	public Result delete(DeleteRentalRequest deleteRentalRequest) {
 		Rental rental = this.modelMapperService.forRequest().map(deleteRentalRequest, Rental.class);
 		this.rentalDao.delete(rental);
-		return new SuccessResult("The rental information of the vehicle with id "+deleteRentalRequest.getId()+" has been deleted from the database.");
+		return new SuccessResult("The rental information of the car with id "+deleteRentalRequest.getId()+" has been deleted from the database.");
+	}
+
+
+	@Override
+	public Result isCarRented(int carId) throws BusinessException {
+		if (this.rentalDao.findByCar_CarIdAndReturnDateIsNull(carId) != null) {
+			throw new BusinessException("The car is rented by someone else");
+		} else
+			return new SuccessResult();
 	}
 	
 	private boolean checkIsUnderMaintenance(Rental rental) {
@@ -109,9 +125,39 @@ public class RentalManager implements RentalService{
 
 
 	@Override
-	public Result isCarRented(int carId) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Rental> getRentalsByCarId(int carId) {
+		
+		List<Rental> rentals = rentalDao.findRentalsByCar_CarId(carId);
+		if (rentals.isEmpty()) {
+			return null;
+		}
+		return rentals;
 	}
+	
+	private void isCarAvaibleToRent(CreateRentalRequest createRentalRequest) throws BusinessException{
+		
+		List<CarMaintenance> maintenances = this.carMaintenanceService.getMaintenancesByCarId(createRentalRequest.getCarId());
+		
+		if(maintenances != null) {
+			if (maintenances.isEmpty()) {
+				
+			}
+			for (CarMaintenance maintenance : maintenances) {
+				if (maintenance.getMaintenanceDate() == null){
+					throw new BusinessException("Araç bakımda ve dönüş tarihi belli değil");
+				}
+			}
+			
+			for (CarMaintenance maintenance : maintenances) {
+				
+				if (createRentalRequest.getReturnDate().isBefore(maintenance.getReturnDate()) || createRentalRequest.getReturnDate().isAfter(maintenance.getMaintenanceDate())) {
+					throw new BusinessException("Araç kirada ve bakıma gönderilemez.");
+				}
+			}
+		}
+		
+	}
+	
+	
 
 }

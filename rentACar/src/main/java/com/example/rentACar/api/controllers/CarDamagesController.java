@@ -2,6 +2,8 @@ package com.example.rentACar.api.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,12 +34,12 @@ public class CarDamagesController {
 	}
 
 	@PostMapping("/create")
-	public Result add(@RequestBody CreateCarDamageRequest createCarDamageRequest) {
+	public Result add(@RequestBody @Valid CreateCarDamageRequest createCarDamageRequest) {
 		return this.carDamageService.create(createCarDamageRequest);
 	}
 
 	@PutMapping("/update")
-	public Result update(@RequestBody UpdateCarDamageRequest updateCarDamageRequest) {
+	public Result update(@RequestBody @Valid UpdateCarDamageRequest updateCarDamageRequest) {
 		return this.carDamageService.update(updateCarDamageRequest);
 	}
 
@@ -46,13 +48,13 @@ public class CarDamagesController {
 		return this.carDamageService.getAll();
 	}
 
-	@GetMapping("/getAllByCarId")
-	public DataResult<List<ListCarDamageDto>> getAllByCarId(@RequestParam int id) {
-		return this.carDamageService.getAllByCarId(id);
+	@GetMapping("/getAllByCarId/{carId}")
+	public DataResult<List<ListCarDamageDto>> getAllByCarId(@RequestParam int carId) {
+		return this.carDamageService.getAllByCarId(carId);
 	}
 
 	@DeleteMapping("/delete")
-	public Result delete(@RequestParam DeleteCarDamageRequest carDamageId) {
-		return this.carDamageService.delete(carDamageId);
+	public Result delete(@RequestBody @Valid DeleteCarDamageRequest deleteCarDamageRequest) {
+		return this.carDamageService.delete(deleteCarDamageRequest);
 	}
 }

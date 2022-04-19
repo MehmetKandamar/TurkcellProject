@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class CreateCarDamageRequest {
 
 	private String carDamageDescription;
+	
 	private int carId;
 }

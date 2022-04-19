@@ -3,16 +3,15 @@ package com.example.rentACar.entities.concretes;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -37,40 +36,34 @@ public class Rental {
     
     @Column(name = "return_date")
     private LocalDate returnDate;
-
-    @Column(name = "additional_price")
-    private double additionalPrice;
     
-    @Column(name = "total_price")
-    private double totalPrice;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
-    private Customer customer; 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "car_id")
-    private Car car;
-    
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "rental")
-	private List<OrderedAdditionalService> orderedAdditionalService;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "initial_city_id")
     private City initialCity;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "return_city_id")
     private City returnCity;
     
-
     @Column(name = "initial_mileage")
     private Integer initialMileage;
     
     @Column(name = "return_mileage")
     private Integer returnMileage;
     
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "rental")
-    private Invoice invoice;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id")
+    private Customer customer; 
+
+    @ManyToOne
+    @JoinColumn(name = "car_id")
+    private Car car;
+    
+    @OneToMany( mappedBy = "rental")
+	private List<OrderedAdditionalService> orderedAdditionalService;
+    
+    
+    @OneToMany(mappedBy = "customer")
+    private List<Payment> payments;
 
 }

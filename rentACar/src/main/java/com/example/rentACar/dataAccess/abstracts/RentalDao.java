@@ -11,5 +11,6 @@ import com.example.rentACar.entities.concretes.Rental;
 public interface RentalDao extends JpaRepository<Rental, Integer>{
 	List<Rental> findAllByCustomer_CustomerId(int customerId);
 	Rental findByCar_CarIdAndReturnDateIsNull(int carId);
+	List<Rental> findRentalsByCar_CarId(int carId);
 
 }

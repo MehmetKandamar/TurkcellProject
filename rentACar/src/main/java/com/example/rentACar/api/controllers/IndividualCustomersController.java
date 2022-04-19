@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,6 @@ import com.example.rentACar.business.requests.createRequests.CreateIndividualCus
 import com.example.rentACar.core.results.DataResult;
 import com.example.rentACar.core.results.Result;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/api/individualCustomers")
@@ -34,12 +34,13 @@ public class IndividualCustomersController {
 		
 	}
 	@GetMapping("/getById")
-	DataResult<ListIndividualCustomerDto> getById(@RequestParam int id) {
-		return this.individualCustomerService.getById(id);
+	DataResult<ListIndividualCustomerDto> getByCustomerId(@RequestParam int customerId) {
+		return this.individualCustomerService.getAllByCustomerId(customerId);
 		
 	}
 	@PostMapping("/create")
 	Result create(@RequestBody CreateIndividualCustomerRequest createIndividualCustomerRequest) {
+		
 		return this.individualCustomerService.create(createIndividualCustomerRequest);
 		
 	}

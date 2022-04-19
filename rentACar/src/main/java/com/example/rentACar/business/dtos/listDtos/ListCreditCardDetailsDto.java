@@ -12,7 +12,6 @@ public class ListCreditCardDetailsDto {
 	private int id;
 	private String cardNumber;
 	private int customerId;
-	
 	private int cVV;
 	private int year;
 	private int month;

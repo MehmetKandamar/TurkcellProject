@@ -28,6 +28,9 @@ public class CreditCardDetails {
 
 	@Column(name = "card_number")
 	private String cardNumber;
+	
+	@Column(name = "card_holder")
+	private String cardHolder;
 
 	@Column(name = "cvv")
 	private int cVV;
@@ -38,7 +41,7 @@ public class CreditCardDetails {
 	@Column(name = "month")
 	private int month;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "customer_id") 
 	private Customer customer;
 }

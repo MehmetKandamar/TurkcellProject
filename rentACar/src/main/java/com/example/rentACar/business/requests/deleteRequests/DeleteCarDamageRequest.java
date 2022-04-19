@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DeleteCarDamageRequest {
 	
+
 	private int carDamageId;
 
 }

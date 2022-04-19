@@ -11,4 +11,5 @@ public class CreateCustomerRequest {
 
 	private String email;
 	private String password;
+	
 }

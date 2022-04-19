@@ -40,24 +40,24 @@ public class Car {
 	@Column(name="description")
 	private String description;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="brand_id")
 	private Brand brand;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="color_id")
 	private Color color;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "car")
+	@OneToMany
 	private List<CarMaintenance>  carMaintenances;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "car")
+	@OneToMany(mappedBy = "car")
 	private List<Rental> rentals;
 	
 	@Column(name = "mileage")
 	private Integer mileage;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "car")
+	@OneToMany(mappedBy = "car")
 	List<CarDamage> carDamages;
 
 }

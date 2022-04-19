@@ -9,12 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateCreditCardDetailsRequest {
 
-private String cardNumber;
-	
-	
+
+	private String cardNumber;
 	private int cVV;
 	private int year;
 	private int month;
-	
 	private int customerId;
 }

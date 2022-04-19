@@ -25,7 +25,8 @@ public class AdditionalService {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="additional_service_id") 
-	private int additionalServiceId; 
+	private int additionalServiceId;
+	
 	
 	@Column(name="additional_service_name") 
 	private String additionalServiceName;

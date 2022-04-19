@@ -1,7 +1,7 @@
 package com.example.rentACar.api.controllers;
 
 import java.util.List;
-
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,8 +15,6 @@ import com.example.rentACar.business.requests.createRequests.CreateCorporateCust
 import com.example.rentACar.core.exceptions.BusinessException;
 import com.example.rentACar.core.results.DataResult;
 import com.example.rentACar.core.results.Result;
-
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/api/corporateCustomers")

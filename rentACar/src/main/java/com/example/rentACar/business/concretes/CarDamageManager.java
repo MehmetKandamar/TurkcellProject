@@ -10,6 +10,7 @@ import com.example.rentACar.business.dtos.listDtos.ListCarDamageDto;
 import com.example.rentACar.business.requests.createRequests.CreateCarDamageRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeleteCarDamageRequest;
 import com.example.rentACar.business.requests.updateRequests.UpdateCarDamageRequest;
+import com.example.rentACar.core.exceptions.BusinessException;
 import com.example.rentACar.core.results.DataResult;
 import com.example.rentACar.core.results.Result;
 import com.example.rentACar.core.results.SuccessDataResult;
@@ -32,9 +33,11 @@ public class CarDamageManager implements CarDamageService{
 
 
 	@Override
-	public Result delete(DeleteCarDamageRequest deleteCarDamageRequest) {
-		CarDamage carDamage = this.modelMapperService.forRequest().map(deleteCarDamageRequest, CarDamage.class);
-		this.carDamageDao.delete(carDamage);
+	public Result delete(DeleteCarDamageRequest deleteCarDamageRequest) throws BusinessException{
+		
+		checkIfCarDamageExists(deleteCarDamageRequest.getCarDamageId());
+
+		carDamageDao.deleteById(deleteCarDamageRequest.getCarDamageId());
 		return new SuccessResult("CarDamage.deleted");
 	}
 
@@ -66,12 +69,19 @@ public class CarDamageManager implements CarDamageService{
 
 	@Override
 	public DataResult<List<ListCarDamageDto>> getAllByCarId(int carId) {
-		List<CarDamage> carDamages = this.carDamageDao.getAllByCar_CarId(carId).getData();
+		var carDamages = this.carDamageDao.getAllByCar_CarId(carId).getData();
         List<ListCarDamageDto> response = carDamages.stream()
-                .map(carDamage -> modelMapperService.forDto().map(carDamage, ListCarDamageDto.class))
+                .map(carDamage -> this.modelMapperService.forDto().map(carDamage, ListCarDamageDto.class))
                 .collect(Collectors.toList());
 
         return new SuccessDataResult<List<ListCarDamageDto>>(response);
+	}
+	
+	private void checkIfCarDamageExists(int carDamageId) throws BusinessException {
+
+		if (!carDamageDao.existsById(carDamageId)) {
+			throw new BusinessException("DAMAGE.NOT.FOUND");
+		}
 	}
 
 }

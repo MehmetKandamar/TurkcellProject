@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,13 +27,32 @@ public class Payment {
 	@Column(name = "payment_id")
 	private int paymentId;
 	
-	@Column(name = "total_payment")
-	private double totalPayment;
+	@Column(name = "payment_amount")
+	private double paymentAmount;
 	
 	@Column(name = "payment_date")
 	private LocalDate paymentDate;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "rental_id")	
 	private Rental rental;
+	
+	@Column(name = "card_number")
+	private String cardNumber;
+	
+	@Column(name = "card_holder")
+	private String cardHolder;
+
+	@Column(name = "cvv")
+	private int cVV;
+
+	@Column(name = "year")
+	private int year;
+
+	@Column(name = "month")
+	private int month;
+	
+	@ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 }

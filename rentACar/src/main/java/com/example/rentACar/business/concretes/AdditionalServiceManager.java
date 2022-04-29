@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.rentACar.business.abstracts.AdditionalServiceService;
+import com.example.rentACar.business.constants.Messages;
 import com.example.rentACar.business.dtos.listDtos.ListAdditionalServiceDto;
 import com.example.rentACar.business.requests.createRequests.CreateAdditionalServiceRequest;
 import com.example.rentACar.business.requests.updateRequests.UpdateAdditionalServiceRequest;
@@ -37,7 +38,7 @@ public class AdditionalServiceManager implements AdditionalServiceService {
 	public Result create(CreateAdditionalServiceRequest createAdditionalServiceRequest) {
 		AdditionalService additionalService = this.modelMapperService.forRequest().map(createAdditionalServiceRequest, AdditionalService.class);
 		this.additionalServiceDao.save(additionalService);
-		return new SuccessResult("AdditionalService.Added");
+		return new SuccessResult(Messages.AdditionalServiceAdded);
 	
 	}
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.rentACar.business.abstracts.ColorService;
+import com.example.rentACar.business.constants.Messages;
 import com.example.rentACar.business.dtos.listDtos.ListColorDto;
 import com.example.rentACar.business.requests.createRequests.CreateColorRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeleteColorRequest;
@@ -47,7 +48,7 @@ public class ColorManager implements ColorService{
 	public Result create(CreateColorRequest createColorRequest) throws BusinessException{
 		   Color color = this.modelMapperService.forRequest().map(createColorRequest, Color.class);
 		   if(colorDao.existsByColorName(color.getColorName())) {
-			   return new ErrorResult("Color.Exists");
+			   return new ErrorResult(Messages.ColorExists);
 		   }
 		  colorDao.save(color);
 		  return new SuccessResult();
@@ -60,7 +61,7 @@ public class ColorManager implements ColorService{
 			ListColorDto response = this.modelMapperService.forDto().map(result, ListColorDto.class);
 			return new SuccessDataResult<ListColorDto>(response);
 		}
-		throw new BusinessException("Renklerin içerisinde böyle bir id bulunmamaktadır.");
+		throw new BusinessException(Messages.NoColorWithThisId);
 	}
 
 	@Override
@@ -68,9 +69,9 @@ public class ColorManager implements ColorService{
 		Color color = this.modelMapperService.forRequest().map(deleteColorRequest, Color.class);
 		if (checkColorIdExist(color)) {
 			this.colorDao.deleteById(color.getColorId());
-			return new SuccessResult("Color.Deleted");
+			return new SuccessResult(Messages.ColorHaveBeenDeleted);
 		}
-		return new ErrorResult("Color.NotFound");
+		return new ErrorResult(Messages.ColorNotFound);
 	}
 
 	@Override
@@ -78,9 +79,9 @@ public class ColorManager implements ColorService{
 		Color color = this.modelMapperService.forRequest().map(updateColorRequest, Color.class);
 		if (checkColorIdExist(color)) {
 			this.colorDao.save(color);
-			return new SuccessResult("Color.Updated");
+			return new SuccessResult(Messages.ColorUpdated);
 		}
-		return new ErrorResult("Color.NotFound");
+		return new ErrorResult(Messages.ColorNotFound);
 	}
 	
 	private boolean checkColorIdExist(Color color) {

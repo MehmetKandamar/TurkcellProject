@@ -10,6 +10,7 @@ import com.example.rentACar.business.abstracts.CarMaintenanceService;
 import com.example.rentACar.business.abstracts.CarService;
 import com.example.rentACar.business.abstracts.CustomerService;
 import com.example.rentACar.business.abstracts.RentalService;
+import com.example.rentACar.business.constants.Messages;
 import com.example.rentACar.business.dtos.getDtos.GetRentalDto;
 import com.example.rentACar.business.dtos.listDtos.ListRentalDto;
 import com.example.rentACar.business.requests.createRequests.CreateRentalRequest;
@@ -67,7 +68,7 @@ public class RentalManager implements RentalService{
 			GetRentalDto response = modelMapperService.forDto().map(rental, GetRentalDto.class);
 			return new SuccessDataResult<GetRentalDto>(response);
 		}
-		return new ErrorDataResult<GetRentalDto>("CarRental.NotFound");
+		return new ErrorDataResult<GetRentalDto>(Messages.CarRentalNotFound);
 	}
 
 	@Override
@@ -88,7 +89,7 @@ public class RentalManager implements RentalService{
 		
 		Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
 		this.rentalDao.save(rental);
-		return new SuccessResult("The rental information of the car with id "+createRentalRequest.getCarId()+" has been updated from the database.");
+		return new SuccessResult(Messages.TheRentalInformationOfTheCarWithId +createRentalRequest.getCarId()+ Messages .HasBeenUpdatedFromTheDatabase);
 	}
 
 	@Override
@@ -97,24 +98,24 @@ public class RentalManager implements RentalService{
 		Rental rental = this.modelMapperService.forRequest().map(updateRentalRequest, Rental.class);
 
 		if (!checkIsUnderMaintenance(rental)) {
-			return new ErrorResult("CarRental.NotUpdated , Car is under maintenance at requested times");
+			return new ErrorResult(Messages.CarRentalNotUpdated + Messages.CarIsUnderMaintenanceAtRequestedTimes);
 		}
 		this.rentalDao.save(rental);
-		return new SuccessResult("The rental information of the vehicle with id "+updateRentalRequest.getCarId()+" has been updated from the database.");
+		return new SuccessResult(Messages.TheRentalInformationOfTheCarWithId +updateRentalRequest.getCarId()+Messages.HasBeenUpdatedFromTheDatabase);
 	}
 
 	@Override
 	public Result delete(DeleteRentalRequest deleteRentalRequest) {
 		Rental rental = this.modelMapperService.forRequest().map(deleteRentalRequest, Rental.class);
 		this.rentalDao.delete(rental);
-		return new SuccessResult("The rental information of the car with id "+deleteRentalRequest.getId()+" has been deleted from the database.");
+		return new SuccessResult(Messages.TheRentalInformationOfTheCarWithId+deleteRentalRequest.getId()+Messages.HasBeenDeletedFromTheDatabase);
 	}
 
 
 	@Override
 	public Result isCarRented(int carId) throws BusinessException {
 		if (this.rentalDao.findByCar_CarIdAndReturnDateIsNull(carId) != null) {
-			throw new BusinessException("The car is rented by someone else");
+			throw new BusinessException(Messages.TheCarIsRentedBySomeoneElse);
 		} else
 			return new SuccessResult();
 	}

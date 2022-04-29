@@ -14,6 +14,7 @@ import com.example.rentACar.business.abstracts.CarService;
 import com.example.rentACar.business.abstracts.OrderedAdditionalServiceService;
 import com.example.rentACar.business.abstracts.PaymentService;
 import com.example.rentACar.business.abstracts.RentalService;
+import com.example.rentACar.business.constants.Messages;
 import com.example.rentACar.business.dtos.getDtos.GetRentalDto;
 import com.example.rentACar.business.dtos.listDtos.ListOrderedAdditionalServiceDto;
 import com.example.rentACar.business.dtos.listDtos.ListPaymentDto;
@@ -129,7 +130,7 @@ public class PaymentManager implements PaymentService{
 
 		var result = this.paymentDao.getAllByRental_RentalId(rentalId);
 		if (result != null) {
-			throw new BusinessException("Daha önce ödemesi alınmıştır.");
+			throw new BusinessException(Messages.PaymentIsReceivedInAdvance);
 		}
 		return true;
 	}
@@ -140,7 +141,7 @@ public class PaymentManager implements PaymentService{
 		if (result) {
 			return true;
 		}
-		throw new BusinessException("Payment için geçersiz Id..!!!!");
+		throw new BusinessException(Messages.PaymentIdNotFound);
 	}
 
 	private double rentalCalculation(GetRentalDto rental) {

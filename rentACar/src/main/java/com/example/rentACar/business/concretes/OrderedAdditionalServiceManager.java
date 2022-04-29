@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.rentACar.business.abstracts.OrderedAdditionalServiceService;
 import com.example.rentACar.business.abstracts.RentalService;
+import com.example.rentACar.business.constants.Messages;
 import com.example.rentACar.business.dtos.listDtos.ListOrderedAdditionalServiceDto;
 import com.example.rentACar.business.requests.createRequests.CreateOrderedAdditionalServiceRequest;
 import com.example.rentACar.core.results.DataResult;
@@ -38,7 +39,7 @@ public class OrderedAdditionalServiceManager implements OrderedAdditionalService
 		
 		orderedAdditionalService.setOrderedAdditionalServiceId(0);
 		this.orderedAdditionalServiceDao.save(orderedAdditionalService);
-		return new SuccessResult("OrderedAdditionalService.Added");
+		return new SuccessResult(Messages.OrderedAdditionalServiceAdded);
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.example.rentACar.business.abstracts.CityService;
+import com.example.rentACar.business.constants.Messages;
 import com.example.rentACar.business.dtos.listDtos.ListCityDto;
 import com.example.rentACar.business.requests.createRequests.CreateCityRequest;
 import com.example.rentACar.core.exceptions.BusinessException;
@@ -48,7 +49,7 @@ public class CityManager implements CityService{
 		City result = this.cityDao.getById(id);
 		
 		if(result == null) {
-			return new ErrorDataResult<ListCityDto>("City.NotFound");
+			return new ErrorDataResult<ListCityDto>(Messages.CityNotFound);
 		}
 		ListCityDto response = this.modelMapperService.forDto().map(result, ListCityDto.class);		
 		
@@ -62,7 +63,7 @@ public class CityManager implements CityService{
 		
 		this.cityDao.save(city);
 		
-		return new SuccessResult("City.Added");
+		return new SuccessResult(Messages.CityAdded);
 	}
 
 }

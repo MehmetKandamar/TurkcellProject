@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.rentACar.business.abstracts.CorporateCustomerService;
+import com.example.rentACar.business.constants.Messages;
 import com.example.rentACar.business.dtos.listDtos.ListCorporateCustomerDto;
 import com.example.rentACar.business.requests.createRequests.CreateCorporateCustomerRequest;
 import com.example.rentACar.core.exceptions.BusinessException;
@@ -49,7 +50,7 @@ public class CorporateCustomerManager implements CorporateCustomerService{
 		CorporateCustomer result = this.corporateCustomerDao.getById(id);
 		
 		if(result == null) {
-			return new ErrorDataResult<ListCorporateCustomerDto>("Car.NotFound");
+			return new ErrorDataResult<ListCorporateCustomerDto>(Messages.CarNotFound);
 		}
 		ListCorporateCustomerDto response = this.modelMapperService.forDto().map(result, ListCorporateCustomerDto.class);		
 		
@@ -63,7 +64,7 @@ public class CorporateCustomerManager implements CorporateCustomerService{
 		
 		this.corporateCustomerDao.save(customer);
 		
-		return new SuccessResult("CorporateCustomer.Added");
+		return new SuccessResult(Messages.CorporateCustomerAdded);
 	}
 
 }

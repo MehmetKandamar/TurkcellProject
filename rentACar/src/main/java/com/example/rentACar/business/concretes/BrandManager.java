@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.rentACar.business.abstracts.BrandService;
+import com.example.rentACar.business.constants.Messages;
 import com.example.rentACar.business.dtos.listDtos.ListBrandDto;
 import com.example.rentACar.business.requests.createRequests.CreateBrandRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeleteBrandRequest;
@@ -58,7 +59,7 @@ public class BrandManager implements BrandService{
 		Brand brand = this.modelMapperService.forRequest().map(createBrandRequest, Brand.class);
 		checkIfBrandExists(brand);
 		this.brandDao.save(brand);
-		return new SuccessResult("Brand.Created");
+		return new SuccessResult(Messages.BrandCreated);
 
 	}
 
@@ -66,7 +67,7 @@ public class BrandManager implements BrandService{
 	public Result delete(DeleteBrandRequest deleteBrandRequest) throws BusinessException {
 		Brand brand = this.modelMapperService.forRequest().map(deleteBrandRequest, Brand.class);
 		this.brandDao.delete(brand);
-		return new SuccessResult("Brand.Deleted");
+		return new SuccessResult(Messages.BrandDeleted);
 
 	}
 
@@ -74,13 +75,13 @@ public class BrandManager implements BrandService{
 	public Result update(UpdateBrandRequest updateBrandRequest) throws BusinessException {
 		Brand brand = this.modelMapperService.forRequest().map(updateBrandRequest, Brand.class);
 		this.brandDao.save(brand);
-		return new SuccessResult("Brand.Updated");
+		return new SuccessResult(Messages.BrandUpdated);
 
 	}
 	
 	private void checkIfBrandExists(Brand brand) throws BusinessException {
 		if (this.brandDao.getByBrandName(brand.getBrandName()).stream().count() != 0) {
-			throw new BusinessException("Brand already exists!");
+			throw new BusinessException(Messages.BrandAlreadyExists);
 		}
 	}
 

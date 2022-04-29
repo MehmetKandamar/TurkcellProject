@@ -1,20 +1,17 @@
 package com.example.rentACar.business.concretes;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.apache.logging.log4j.message.Message;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.rentACar.business.abstracts.CarService;
 import com.example.rentACar.business.constants.Messages;
-import com.example.rentACar.business.dtos.getDtos.GetCarDto;
 import com.example.rentACar.business.dtos.listDtos.ListCarDto;
 import com.example.rentACar.business.requests.createRequests.CreateCarRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeleteCarRequest;
@@ -77,9 +74,9 @@ public class CarManager implements CarService{
 		Car car = this.modelMapperService.forRequest().map(deleteCarRequest, Car.class);
 		if (checkCarIdExist(car)) {
 			this.carDao.deleteById(car.getCarId());
-			return new SuccessResult("Car.Deleted");
+			return new SuccessResult(Messages.CarDeleted);
 		}
-		return new ErrorResult("Car.NotFound");
+		return new ErrorResult(Messages.CarNotFound);
 	}
 
 	@Override
@@ -87,9 +84,9 @@ public class CarManager implements CarService{
 		Car car=this.modelMapperService.forRequest().map(updateCarRequest, Car.class);
 		if(checkCarIdExist(car)) {
 			this.carDao.save(car);
-			return new SuccessResult("Car.Updated");
+			return new SuccessResult(Messages.CarUpdated);
 		}
-		return new ErrorResult("Car.NotFound");
+		return new ErrorResult(Messages.CarNotFound);
 	}
 	
 	private boolean checkCarIdExist(Car car) {

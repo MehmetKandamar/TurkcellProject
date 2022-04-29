@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.rentACar.business.abstracts.CreditCardDetailsService;
+import com.example.rentACar.business.constants.Messages;
 import com.example.rentACar.business.dtos.listDtos.ListCreditCardDetailsDto;
 import com.example.rentACar.business.requests.createRequests.CreateCreditCardDetailsRequest;
 import com.example.rentACar.core.exceptions.BusinessException;
@@ -50,7 +51,7 @@ public class CreditCardDetailsManager implements CreditCardDetailsService{
 		
 		if(result == null) {
 			
-			return new ErrorDataResult<ListCreditCardDetailsDto>("Car.NotFound");
+			return new ErrorDataResult<ListCreditCardDetailsDto>(Messages.CarNotFound);
 		}
 		
 		ListCreditCardDetailsDto response = this.modelMapperService.forDto().map(result, ListCreditCardDetailsDto.class);
@@ -77,6 +78,6 @@ public class CreditCardDetailsManager implements CreditCardDetailsService{
 		
 		this.creditCardDetailsDao.save(creditCardDetails);
 		
-		return new SuccessResult("CreditCard.Added");
+		return new SuccessResult(Messages.CreditCardAdded);
 	}
 }

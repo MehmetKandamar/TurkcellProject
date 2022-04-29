@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.rentACar.business.abstracts.IndividualCustomerService;
+import com.example.rentACar.business.constants.Messages;
 import com.example.rentACar.business.dtos.listDtos.ListIndividualCustomerDto;
 import com.example.rentACar.business.requests.createRequests.CreateIndividualCustomerRequest;
 import com.example.rentACar.core.results.DataResult;
@@ -48,7 +49,7 @@ public class IndividualCustomerManager implements IndividualCustomerService{
 		IndividualCustomer result = this.individualCustomerDao.getAllByCustomerId(customerId);
 		
 		if(result == null) {
-			return new ErrorDataResult<ListIndividualCustomerDto>("Car.NotFound");
+			return new ErrorDataResult<ListIndividualCustomerDto>(Messages.CarNotFound);
 		}
 		ListIndividualCustomerDto response = this.modelMapperService.forDto().map(result, ListIndividualCustomerDto.class);		
 		
@@ -64,7 +65,7 @@ public class IndividualCustomerManager implements IndividualCustomerService{
 		this.individualCustomerDao.save(customer);
 		
 		
-		return new SuccessResult("IndividualCustomer.Added");
+		return new SuccessResult(Messages.IndividualCustomerAdded);
 
 	}
 

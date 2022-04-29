@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.example.rentACar.business.abstracts.CarDamageService;
+import com.example.rentACar.business.constants.Messages;
 import com.example.rentACar.business.dtos.listDtos.ListCarDamageDto;
 import com.example.rentACar.business.requests.createRequests.CreateCarDamageRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeleteCarDamageRequest;
@@ -38,7 +39,7 @@ public class CarDamageManager implements CarDamageService{
 		checkIfCarDamageExists(deleteCarDamageRequest.getCarDamageId());
 
 		carDamageDao.deleteById(deleteCarDamageRequest.getCarDamageId());
-		return new SuccessResult("CarDamage.deleted");
+		return new SuccessResult(Messages.CarDamageDeleted);
 	}
 
 	@Override
@@ -55,7 +56,7 @@ public class CarDamageManager implements CarDamageService{
 	public Result create(CreateCarDamageRequest createCarDamageRequest) {
 		CarDamage carDamage = this.modelMapperService.forRequest().map(createCarDamageRequest, CarDamage.class);
 		this.carDamageDao.save(carDamage);
-		return new SuccessResult("CarDamage.Added");
+		return new SuccessResult(Messages.CarDamageAdded);
 	}
 
 	@Override
@@ -80,7 +81,7 @@ public class CarDamageManager implements CarDamageService{
 	private void checkIfCarDamageExists(int carDamageId) throws BusinessException {
 
 		if (!carDamageDao.existsById(carDamageId)) {
-			throw new BusinessException("DAMAGE.NOT.FOUND");
+			throw new BusinessException(Messages.DamageNotFound);
 		}
 	}
 

@@ -9,9 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.rentACar.business.abstracts.CarMaintenanceService;
-import com.example.rentACar.business.abstracts.CarService;
 import com.example.rentACar.business.abstracts.RentalService;
-import com.example.rentACar.business.dtos.listDtos.ListCarDto;
+import com.example.rentACar.business.constants.Messages;
 import com.example.rentACar.business.dtos.listDtos.ListCarMaintenanceDto;
 import com.example.rentACar.business.requests.createRequests.CreateCarMaintenanceRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeleteCarMaintenanceRequest;
@@ -24,7 +23,6 @@ import com.example.rentACar.core.results.SuccessDataResult;
 import com.example.rentACar.core.results.SuccessResult;
 import com.example.rentACar.core.utilities.mapping.ModelMapperService;
 import com.example.rentACar.dataAccess.abstracts.CarMaintenanceDao;
-import com.example.rentACar.entities.concretes.Car;
 import com.example.rentACar.entities.concretes.CarMaintenance;
 import com.example.rentACar.entities.concretes.Rental;
 
@@ -58,14 +56,14 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 		isCarAvaibleToMaintenance(createCarMaintenanceRequest);
 		CarMaintenance carMaintenance = this.modelMapperService.forRequest().map(createCarMaintenanceRequest, CarMaintenance.class);
 		this.carMaintenanceDao.save(carMaintenance);
-		return new SuccessResult("CarMaintenance.Added");
+		return new SuccessResult(Messages.CarMaintenanceAdded);
 	}
 
 	@Override
 	public Result delete(DeleteCarMaintenanceRequest deleteCarMaintenanceRequest) {
 		CarMaintenance carMaintenance = this.modelMapperService.forRequest().map(deleteCarMaintenanceRequest, CarMaintenance.class);
 		this.carMaintenanceDao.delete(carMaintenance);
-		return new SuccessResult("CarMaintenance.deleted");
+		return new SuccessResult(Messages.CarMaintenancedeleted);
 	}
 
 	@Override
@@ -76,7 +74,7 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 			carMaintenanceDao.save(carMaintenance);
 			return new SuccessResult();
 		}
-		return new ErrorResult("The maintenance was not found!");
+		return new ErrorResult(Messages.Themaintenancewasnotfound);
 	}
 
 	@Override
@@ -110,7 +108,7 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 	@Override
 	public Result isCarInMaintenance(int carId) throws BusinessException {
 		if(this.carMaintenanceDao.findByCarMaintenanceIdAndReturnDateIsNull(carId) != null)
-			throw new BusinessException("Rental can't be added (Car is under maintenance at requested times");
+			throw new BusinessException(Messages.RentalCantBeAddedCarIsUnderMaintenanceAtRequestedTimes);
 		
 		else
 			return new SuccessResult();
@@ -127,14 +125,14 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 			}
 			for (Rental rental : rentals) {
 				if (rental.getRentDate() == null){
-					throw new BusinessException("Araç kirada ve dönüş tarihi belli değil");
+					throw new BusinessException(Messages.CarIsUnderMaintenanceAndReturnDateUnknown);
 				}
 			}
 			
 			for (Rental rental : rentals) {
 				
 				if (createCarMaintenanceRequest.getReturnDate().isBefore(rental.getReturnDate()) || createCarMaintenanceRequest.getReturnDate().isAfter(rental.getRentDate())) {
-					throw new BusinessException("Araç kirada ve bakıma gönderilemez.");
+					throw new BusinessException(Messages.CarIsUnderRentAndCantBeMaintenanced);
 				}
 			}
 		}

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.rentACar.business.abstracts.InvoiceService;
+import com.example.rentACar.business.constants.Messages;
 import com.example.rentACar.business.dtos.listDtos.ListInvoiceDto;
 import com.example.rentACar.business.requests.createRequests.CreateInvoiceRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeleteInvoiceRequest;
@@ -44,7 +45,7 @@ public class InvoiceManager implements InvoiceService{
 		
 		Invoice invoice = this.modelMapperService.forRequest().map(createInvoiceRequest, Invoice.class);
 		this.invoiceDao.save(invoice);
-		return new SuccessResult("Invoice.Created");
+		return new SuccessResult(Messages.InvoiceCreated);
 	}
 
 	@Override
@@ -52,7 +53,7 @@ public class InvoiceManager implements InvoiceService{
 		
 		Invoice invoice = this.modelMapperService.forRequest().map(deleteInvoiceRequest, Invoice.class);
 		this.invoiceDao.delete(invoice);
-		return new SuccessResult("Invoice.Deleted");
+		return new SuccessResult(Messages.InvoiceDeleted);
 	}
 
 	@Override
@@ -60,7 +61,7 @@ public class InvoiceManager implements InvoiceService{
 		
 		Invoice invoice = this.modelMapperService.forRequest().map(updateInvoiceRequest, Invoice.class);
 		this.invoiceDao.save(invoice);
-		return new SuccessResult("Invoice.Updated");
+		return new SuccessResult(Messages.InvoiceUpdated);
 	}
 
 

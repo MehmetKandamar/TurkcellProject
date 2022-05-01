@@ -1,5 +1,6 @@
 package com.example.rentACar.business.concretes;
 
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,9 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.example.rentACar.api.models.CreatePaymentModel;
 import com.example.rentACar.business.abstracts.AdditionalServiceService;
 import com.example.rentACar.business.abstracts.CarService;
+import com.example.rentACar.business.abstracts.CreditCardDetailsService;
+import com.example.rentACar.business.abstracts.CustomerService;
+import com.example.rentACar.business.abstracts.InvoiceService;
 import com.example.rentACar.business.abstracts.OrderedAdditionalServiceService;
 import com.example.rentACar.business.abstracts.PaymentService;
 import com.example.rentACar.business.abstracts.RentalService;
@@ -18,6 +25,7 @@ import com.example.rentACar.business.constants.Messages;
 import com.example.rentACar.business.dtos.getDtos.GetRentalDto;
 import com.example.rentACar.business.dtos.listDtos.ListOrderedAdditionalServiceDto;
 import com.example.rentACar.business.dtos.listDtos.ListPaymentDto;
+import com.example.rentACar.business.requests.createRequests.CreateInvoiceRequest;
 import com.example.rentACar.business.requests.createRequests.CreatePaymentRequest;
 import com.example.rentACar.business.requests.deleteRequests.DeletePaymentRequest;
 import com.example.rentACar.core.adapters.abstracts.BankAdapterService;
@@ -29,6 +37,7 @@ import com.example.rentACar.core.results.SuccessResult;
 import com.example.rentACar.core.utilities.mapping.ModelMapperService;
 import com.example.rentACar.dataAccess.abstracts.PaymentDao;
 import com.example.rentACar.entities.concretes.Payment;
+import com.example.rentACar.entities.concretes.Rental;
 
 @Service
 public class PaymentManager implements PaymentService{
@@ -40,12 +49,18 @@ public class PaymentManager implements PaymentService{
 	private CarService carService;
 	private AdditionalServiceService additionalServiceService;
 	private OrderedAdditionalServiceService orderedAdditionalServiceService;
+	private CustomerService customerService;
+	private InvoiceService invoiceService;
+	private CreditCardDetailsService creditCardDetailsService;
 
 	@Autowired
 	public PaymentManager(ModelMapperService modelMapperService, PaymentDao paymentDao, RentalService rentalService,
 			BankAdapterService bankAdapterService, CarService carService,
 			AdditionalServiceService additionalServiceService,
-			OrderedAdditionalServiceService orderedAdditionalServiceService) {
+			OrderedAdditionalServiceService orderedAdditionalServiceService,
+			InvoiceService invoiceService,
+			CreditCardDetailsService creditCardDetailsService,
+			CustomerService customerService) {
 		this.modelMapperService = modelMapperService;
 		this.paymentDao = paymentDao;
 		this.rentalService = rentalService;
@@ -53,28 +68,35 @@ public class PaymentManager implements PaymentService{
 		this.orderedAdditionalServiceService = orderedAdditionalServiceService;
 		this.carService = carService;
 		this.additionalServiceService = additionalServiceService;
+		this.invoiceService = invoiceService;
+		this.creditCardDetailsService = creditCardDetailsService;
+		this.customerService = customerService;
 
 	}
 	
 	@Override
-	public Result add(CreatePaymentRequest createPaymentRequest) {
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = BusinessException.class)
+	public Result add(CreatePaymentModel createPaymentModel) throws BusinessException{
 
 		// this.rentalService.checkRentCarExists(createPaymentRequest.getRentalId());
-		checkPaymentRentalId(createPaymentRequest.getRentalId());
 
-		GetRentalDto rental = rentalService.getById(createPaymentRequest.getRentalId()).getData();
+		GetRentalDto rental = this.modelMapperService.forRequest().map(createPaymentModel.getCreateRentalRequest(), GetRentalDto.class);
 
 		double totalPrice = rentalCalculation(rental);
 
-		this.bankAdapterService.checkIfLimitIsEnough(createPaymentRequest.getCardNo(), createPaymentRequest.getYear(),
-				createPaymentRequest.getMounth(), createPaymentRequest.getCVV(), totalPrice);
-
-		Payment payment = this.modelMapperService.forRequest().map(createPaymentRequest, Payment.class);
-
+		this.bankAdapterService.checkIfLimitIsEnough(createPaymentModel.getCreatePaymentRequest(), totalPrice);
+		Rental createdRental = this.rentalService.create(createPaymentModel.getCreateRentalRequest()).getData();
+		CreateInvoiceRequest createInvoiceRequest = new CreateInvoiceRequest();
+		createInvoiceRequest.setCreationDate(LocalDate.now());
+		createInvoiceRequest.setInvoiceNumber(createPaymentModel.getInvoiceNumber());
+		createInvoiceRequest.setCustomerId(createdRental.getCustomer().getCustomerId());
+		createInvoiceRequest.setRentalId(createdRental.getRentalId());
+		this.invoiceService.create(createInvoiceRequest);
+		Payment payment = this.modelMapperService.forRequest().map(createPaymentModel.getCreatePaymentRequest(), Payment.class);
 		payment.setPaymentAmount(totalPrice);;
-
 		payment.setPaymentId(0);
 		this.paymentDao.save(payment);
+		
 
 		return new SuccessResult();
 	}

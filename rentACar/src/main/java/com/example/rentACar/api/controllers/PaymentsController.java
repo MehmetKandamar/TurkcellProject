@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.rentACar.api.models.CreatePaymentModel;
 import com.example.rentACar.business.abstracts.PaymentService;
 import com.example.rentACar.business.dtos.listDtos.ListPaymentDto;
 import com.example.rentACar.business.requests.createRequests.CreatePaymentRequest;
@@ -30,8 +31,8 @@ private PaymentService paymentService ;
 		this.paymentService = paymentService;
 	}
 	@PostMapping("/add")
-	public Result add(@RequestBody @Valid CreatePaymentRequest createPaymentRequest)  {
-		return this.paymentService.add(createPaymentRequest);
+	public Result add(@RequestBody @Valid CreatePaymentModel createPaymentModel)  {
+		return this.paymentService.add(createPaymentModel);
 	}
 
 	@DeleteMapping("/delete")

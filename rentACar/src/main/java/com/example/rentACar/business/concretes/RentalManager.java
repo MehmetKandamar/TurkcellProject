@@ -83,13 +83,13 @@ public class RentalManager implements RentalService{
 	}
 
 	@Override
-	public Result create(CreateRentalRequest createRentalRequest) throws BusinessException{
+	public DataResult<Rental> create(CreateRentalRequest createRentalRequest) throws BusinessException{
 		
 		isCarAvaibleToRent(createRentalRequest);
 		
 		Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
 		this.rentalDao.save(rental);
-		return new SuccessResult(Messages.TheRentalInformationOfTheCarWithId +createRentalRequest.getCarId()+ Messages .HasBeenUpdatedFromTheDatabase);
+		return new SuccessDataResult<>(rental, Messages.TheRentalInformationOfTheCarWithId +createRentalRequest.getCarId()+ Messages .HasBeenUpdatedFromTheDatabase);
 	}
 
 	@Override

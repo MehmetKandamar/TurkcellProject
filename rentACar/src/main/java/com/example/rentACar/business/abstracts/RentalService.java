@@ -19,7 +19,7 @@ public interface RentalService {
 	List<Rental> getRentalsByCarId(int carId);
 	
 	Result isCarRented(int carId) throws BusinessException;
-    Result create(CreateRentalRequest createRentalRequest) throws BusinessException;
+    DataResult<Rental> create(CreateRentalRequest createRentalRequest) throws BusinessException;
     Result update(UpdateRentalRequest updateRentalRequest) throws BusinessException;
     Result delete(DeleteRentalRequest deleteRentalRequest) throws BusinessException;
 }

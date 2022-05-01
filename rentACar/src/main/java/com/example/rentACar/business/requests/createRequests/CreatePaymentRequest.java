@@ -16,12 +16,10 @@ public class CreatePaymentRequest {
 	@NotNull
 	private LocalDate paymentDate;
 
-	@NotNull
-	private int rentalId;
-
 	private String cardNo;
 	private String year;
-	private String mounth;
+	private String month;
 	private String cVV;
+	private String cardHolder;
 	private double amount;
 }

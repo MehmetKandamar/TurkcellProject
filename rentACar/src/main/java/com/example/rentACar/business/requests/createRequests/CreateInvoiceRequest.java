@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 public class CreateInvoiceRequest {
 	private String invoiceNumber;
 	private LocalDate creationDate;
-	private int numberOfDaysRented;
 	private int rentalId;
 	private int customerId;
 

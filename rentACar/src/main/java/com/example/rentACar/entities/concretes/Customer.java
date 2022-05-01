@@ -3,6 +3,7 @@ package com.example.rentACar.entities.concretes;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -37,6 +38,6 @@ public class Customer extends User{
 	@OneToMany(mappedBy = "customer")
 	private List<Invoice> invoices;
 	
-	@OneToMany(mappedBy = "customer")
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<CreditCardDetails> creditCardDetails;
 }

@@ -33,10 +33,6 @@ public class Payment {
 	@Column(name = "payment_date")
 	private LocalDate paymentDate;
 	
-	@ManyToOne
-	@JoinColumn(name = "rental_id")	
-	private Rental rental;
-	
 	@Column(name = "card_number")
 	private String cardNumber;
 	
@@ -51,6 +47,10 @@ public class Payment {
 
 	@Column(name = "month")
 	private int month;
+	
+	@ManyToOne
+	@JoinColumn(name = "rental_id")	
+	private Rental rental;
 	
 	@ManyToOne
     @JoinColumn(name = "customer_id")
